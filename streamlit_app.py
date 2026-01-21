@@ -1,6 +1,27 @@
 import streamlit as st
 
-st.title("🎈 My new app")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
+st.title("🌸 동아리 부스 꽃 테스트")
+
+st.write("아래 질문에 답해서 너의 꽃 성향을 알아보자!")
+
+q1 = st.radio("Q1. 너의 성격은?", ["활발함", "차분함", "상상력이 풍부함"])
+q2 = st.radio("Q2. 가장 좋아하는 색은?", ["파랑", "노랑", "분홍"])
+
+result = ""
+if st.button("결과 보기"):
+    # 간단 매칭 로직(확장 가능)
+    score = 0
+    if q1 == "활발함": score += 1
+    if q2 == "노랑": score += 1
+
+    if score >= 2:
+        result = "🌼 데이지형"
+    elif score == 1:
+        result = "🌷 튤립형"
+    else:
+        result = "💐 델피늄형"
+
+    st.subheader(f"당신의 결과: {result}")
+    st.write("🎉 축하해!")
+
+st.write("📱 QR로 찍어도 잘 동작해요!")
