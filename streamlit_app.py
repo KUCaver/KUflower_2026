@@ -15,49 +15,48 @@ st.set_page_config(
 # 1) 결과(꽃) 정의 + 이미지 경로(또는 URL)
 #    - images/ 폴더에 파일을 넣으면 로컬 경로로 표시됨
 #    - 예: images/daisy.png
-# -----------------------------
-FLOWERS = {
+# -----------------------------FLOWERS = {
     "DAISY": {
         "name": "데이지",
         "emoji": "🌼",
         "desc": "친목 에너지 만렙! 처음 만난 사람도 금방 웃게 만드는 **분위기 메이커 선배** 타입.",
         "role": "오늘 너의 추천 포지션: **현장 분위기 & 아이스브레이킹**",
-        "image": "images/daisy.png",  # 없으면 자동 fallback
+        "image": "images/daisy.jpg",
     },
     "FORGET": {
         "name": "물망초",
         "emoji": "💙",
         "desc": "조용히 스며들어 1:1 대화로 마음을 여는 **감성 케어 선배** 타입.",
         "role": "오늘 너의 추천 포지션: **새내기 옆자리 앉아서 편하게 해주기**",
-        "image": "images/forgetmenot.png",
+        "image": "images/forgetmenot.jpg",
     },
     "DELPH": {
         "name": "델피늄",
         "emoji": "💠",
         "desc": "행사/일정/동선을 정리하며 판을 깔아주는 **기획 리드 선배** 타입.",
         "role": "오늘 너의 추천 포지션: **동선/역할 분배 & 진행**",
-        "image": "images/delphinium.png",
+        "image": "images/delphinium.jpg",
     },
     "LAV": {
         "name": "라벤더",
         "emoji": "💜",
         "desc": "뒤에서 안정감 있게 받쳐주고 사람을 챙기는 **운영·케어 선배** 타입.",
         "role": "오늘 너의 추천 포지션: **물품/정리/서포트 & 멘탈케어**",
-        "image": "images/lavender.png",
+        "image": "images/lavender.jpg",
     },
     "ROSE": {
         "name": "장미",
         "emoji": "🌹",
         "desc": "호감 생기면 자연스럽게 설렘을 만드는 **플러팅 직진 선배** 타입.",
         "role": "오늘 너의 추천 포지션: **‘한 명’과 친해지기 미션 수행**",
-        "image": "images/rose.png",
+        "image": "images/rose.jpg",
     },
     "SUN": {
         "name": "해바라기",
         "emoji": "🌻",
         "desc": "추억을 예쁘게 남기고 홍보로 확산시키는 **콘텐츠·기록 선배** 타입.",
         "role": "오늘 너의 추천 포지션: **사진/영상/스토리 업로드 담당**",
-        "image": "images/sunflower.png",
+        "image": "images/sunflower.jpg",
     },
 }
 
