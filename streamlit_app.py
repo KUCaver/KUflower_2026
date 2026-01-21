@@ -15,7 +15,8 @@ st.set_page_config(
 # 1) 결과(꽃) 정의 + 이미지 경로(또는 URL)
 #    - images/ 폴더에 파일을 넣으면 로컬 경로로 표시됨
 #    - 예: images/daisy.png
-# -----------------------------FLOWERS = {
+# -----------------------------
+FLOWERS = {
     "DAISY": {
         "name": "데이지",
         "emoji": "🌼",
