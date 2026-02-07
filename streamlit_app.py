@@ -1,9 +1,9 @@
-# app.py
 import random
 import streamlit as st
+import os
 
 # -----------------------------
-# 0) 페이지 설정
+# 0) 페이지 설정 및 CSS
 # -----------------------------
 st.set_page_config(
     page_title="쿨라워 꽃 성향 테스트",
@@ -11,232 +11,168 @@ st.set_page_config(
     layout="centered"
 )
 
+# 상단 메뉴/푸터 숨기기 (깔끔한 앱 느낌)
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
 # -----------------------------
-# 1) 결과(꽃) 정의 + 이미지 경로(또는 URL)
-#    - images/ 폴더에 파일을 넣으면 로컬 경로로 표시됨
-#    - 예: images/daisy.png
+# 1) 결과(꽃) 정의 - 쿨라워 동아리 버전# -----------------------------
+# 1) 결과(꽃) 정의 - 쿨라워 동아리 (새내기+헌내기 저격 ver)
 # -----------------------------
 FLOWERS = {
     "DAISY": {
-        "name": "데이지",
-        "emoji": "🌼",
-        "desc": "친목 에너지 만렙! 처음 만난 사람도 금방 웃게 만드는 **분위기 메이커 선배** 타입.",
-        "role": "오늘 너의 추천 포지션: **현장 분위기 & 아이스브레이킹**",
-        "image": "images/daisy.jpg",
-    },
-    "FORGET": {
-        "name": "물망초",
-        "emoji": "💙",
-        "desc": "조용히 스며들어 1:1 대화로 마음을 여는 **감성 케어 선배** 타입.",
-        "role": "오늘 너의 추천 포지션: **새내기 옆자리 앉아서 편하게 해주기**",
-        "image": "images/forgetmenot.jpg",
-    },
-    "DELPH": {
-        "name": "델피늄",
-        "emoji": "💠",
-        "desc": "행사/일정/동선을 정리하며 판을 깔아주는 **기획 리드 선배** 타입.",
-        "role": "오늘 너의 추천 포지션: **동선/역할 분배 & 진행**",
-        "image": "images/delphinium.jpg",
-    },
-    "LAV": {
-        "name": "라벤더",
-        "emoji": "💜",
-        "desc": "뒤에서 안정감 있게 받쳐주고 사람을 챙기는 **운영·케어 선배** 타입.",
-        "role": "오늘 너의 추천 포지션: **물품/정리/서포트 & 멘탈케어**",
-        "image": "images/lavender.jpg",
-    },
-    "ROSE": {
-        "name": "장미",
-        "emoji": "🌹",
-        "desc": "호감 생기면 자연스럽게 설렘을 만드는 **플러팅 직진 선배** 타입.",
-        "role": "오늘 너의 추천 포지션: **‘한 명’과 친해지기 미션 수행**",
-        "image": "images/rose.jpg",
-    },
-    "SUN": {
         "name": "해바라기",
         "emoji": "🌻",
-        "desc": "추억을 예쁘게 남기고 홍보로 확산시키는 **콘텐츠·기록 선배** 타입.",
-        "role": "오늘 너의 추천 포지션: **사진/영상/스토리 업로드 담당**",
+        "desc": "어색한 공기는 못 참는 **인간 비타민**!<br>새내기 땐 선배들 사랑 독차지하고, 선배 되면 후배들이 '언니/오빠랑 밥 먹고 싶어요' 줄 서는 핵인싸 타입.",
+        "role": "👑 추천 포지션: **모임의 중심! 오락부장 & 분위기 메이커**",
         "image": "images/sunflower.jpg",
+    },
+    "FORGET": {
+        "name": "안개꽃",
+        "emoji": "🌫️",
+        "desc": "튀지 않지만 없으면 동아리 안 돌아가는 **숨은 실세**.<br>소외되는 부원 없이 세심하게 챙겨줘서, 겉으로는 조용해도 속으로 너 의지하는 애들 트럭 한 대임.",
+        "role": "👑 추천 포지션: **부원들의 대나무숲! 멘토링 & 힐링 케어 담당**",
+        "image": "images/babysbreath.jpg",
+    },
+    "DELPH": {
+        "name": "목련",
+        "emoji": "🤍",
+        "desc": "PPT 폰트까지 맞추는 **갓생 계획러**.<br>'이거 누가 해?' 할 때 이미 다 해놓는 든든한 선배. 임원진들이 탐내는 차기 회장/총무 1순위 후보!",
+        "role": "👑 추천 포지션: **동아리 살림꾼! 총무 & 행사 기획 총괄**",
+        "image": "images/magnolia.jpg",
+    },
+    "LAV": {
+        "name": "선인장",
+        "emoji": "🌵",
+        "desc": "일처리는 칼 같고 내 사람은 확실히 챙기는 **겉바속촉 츤데레**.<br>답답한 상황 딱 정리해주는 사이다 발언 장인이라, 후배들이 '와 멋있다...' 하고 몰래 동경함.",
+        "role": "👑 추천 포지션: **위기 탈출 넘버원! 규율 관리 & 해결사**",
+        "image": "images/cactus.jpg",
+    },
+    "ROSE": {
+        "name": "난(Orchid)",
+        "emoji": "🌿",
+        "desc": "존재감 확실하고 센스 넘치는 **입덕몰이 아이콘**.<br>너만의 독특한 아우라가 있어서, 신입 모집할 때 네 얼굴 박힌 포스터 쓰면 지원율 급상승각.",
+        "role": "👑 추천 포지션: **동아리의 간판! 홍보 모델 & 대외협력 팀장**",
+        "image": "images/orchid.jpg",
+    },
+    "SUN": {
+        "name": "장미",
+        "emoji": "🌹",
+        "desc": "필 꽂히면 밤새서라도 끝장을 보는 **열정의 불도저**.<br>'야, 가자!' 한마디로 전설의 MT나 축제를 만들어내는 추진력 대장. 너랑 있으면 지루할 틈이 없음.",
+        "role": "👑 추천 포지션: **판을 키우는 능력자! 축제/MT 추진 위원장**",
+        "image": "images/rose.jpg",
     },
 }
 
 # -----------------------------
-# 2) 질문(버튼형) 정의 - 설렘/활동 기대감 버전
-#    choice_key: A/B/C/D
+# 2) 질문(버튼형) 정의 - 4문항
 # -----------------------------
 QUESTIONS = [
     {
-        "q": "첫 동아리 모임, 이런 선배가 있으면 마음이 풀린다",
+        "q": "쿨라워 OT 날! 마음에 드는 동기/선배가 눈에 띈다. 나의 행동은?",
         "opts": {
-            "A": "처음 보는 후배들한테 먼저 말 걸어주며 자연스럽게 웃게 만드는 선배",
-            "B": "옆에 앉아서 “괜찮아?” 하고 조용히 챙겨주는 선배",
-            "C": "말은 적지만 전체 분위기랑 사람들 다 파악하고 있는 선배",
-            "D": "“오늘 일정은 이렇게 가자” 하며 흐름 잡아주는 선배",
+            "A": "자연스럽게 옆에 가서 말을 건다. \"혹시 무슨 과세요?\" (선공)",
+            "B": "내 쪽을 봐주길 기다리며 근처를 서성인다. (간택 대기)",
         },
     },
     {
-        "q": "쿨라워 MT, 제일 기대되는 장면은?",
+        "q": "동기한테 카톡이 왔다. '나 오늘 우울해서 꽃 샀어...' 나의 답장은?",
         "opts": {
-            "A": "밤공기 속에서 괜히 눈 마주치고 썸 기류 도는 순간",
-            "B": "다 같이 게임하다가 웃느라 정신 없는 시간",
-            "C": "술자리 끝나고 둘만 남아서 진한 얘기하는 순간",
-            "D": "일정 딱 맞게 굴러가서 “이번 MT 잘됐다” 소리 나올 때",
+            "A": "헐 ㅠㅠ 무슨 일 있어? 괜찮아? (걱정)",
+            "B": "오 무슨 꽃?? 사진 보여줘! (관심)",
+            "C": "왜 우울해? 누가 괴롭혔어? (원인 분석)",
+            "D": "꽃 살 돈이 있다니... 부자네? (장난/팩폭)",
         },
     },
     {
-        "q": "꽃시장·부지 꾸미기 같은 활동이 있다면, 이런 사람이 멋있다",
+        "q": "테라리움 만들기 활동 중! 옆자리 부원이 (솔직히 좀 이상한) 작품을 보여주며<br>\"예쁘죠?! 저희 조 대표작으로 낼까요?\"라고 묻는다.",
         "opts": {
-            "A": "“이 컨셉 어때?” 하면서 분위기 확 바꾸는 아이디어 내는 사람",
-            "B": "사람들 모아서 역할 나누고 현장 분위기 잡는 사람",
-            "C": "말 없이 손 빠르게 움직이면서 결과 만들어내는 사람",
-            "D": "사진·영상 예쁘게 남겨서 추억 만들어주는 사람",
+            "A": "응!! 엄청 예쁘다!! 너만의 감성이 있어! (일단 칭찬)",
+            "B": "음, 여기 좀 수정하고... 공정하게 투표로 정하는 게 어때? (냉철한 판단)",
         },
     },
     {
-        "q": "벚꽃 시즌, 쿨라워 꽃놀이 간다면 가장 설레는 건?",
+        "q": "압화를 활용한 엽서 만들기 시간!<br>재료를 받자마자 나는?",
         "opts": {
-            "A": "인생샷 건져서 다 같이 SNS 올리는 순간",
-            "B": "무리 지어서 돌아다니며 웃고 떠드는 분위기",
-            "C": "마음 맞는 한 사람이랑 조용히 걷는 시간",
-            "D": "동선·맛집 완벽해서 “역시 준비된 사람” 소리 듣는 순간",
-        },
-    },
-    {
-        "q": "축제 부스 운영 중, 가장 든든한 유형은?",
-        "opts": {
-            "A": "지나가는 사람들 자연스럽게 끌어오는 선배",
-            "B": "현장 분위기 관리 & 친화력 만렙인 선배",
-            "C": "계산·정리·물품 하나도 안 놓치는 선배",
-            "D": "설명·멘트 센스 좋아서 기억에 남는 선배",
-        },
-    },
-    {
-        "q": "쿨라워 활동 중, 이런 순간에 심쿵한다",
-        "opts": {
-            "A": "“너 덕분에 분위기 살았다”는 말 들을 때",
-            "B": "활동 끝나고 다 같이 친해졌다는 게 느껴질 때",
-            "C": "누군가랑 깊은 얘기 나누고 마음 열렸을 때",
-            "D": "하나의 활동이 완벽하게 마무리됐을 때",
-        },
-    },
-    {
-        "q": "동아리에서 호감 가는 사람이 생겼다면?",
-        "opts": {
-            "A": "은근 티 나게 플러팅하면서 설렘 주는 스타일",
-            "B": "먼저 친해지고 자연스럽게 거리 좁히는 스타일",
-            "C": "상대가 확실히 다가올 때까지 기다리는 스타일",
-            "D": "연애보다 지금은 동아리 활동에 더 집중하는 스타일",
-        },
-    },
-    {
-        "q": "종강 즈음, “쿨라워 들어오길 잘했다”라고 느끼는 순간은?",
-        "opts": {
-            "A": "사람들이 나를 분위기 메이커로 기억해줄 때",
-            "B": "여기 와서 진짜 친한 사람들이 생겼을 때",
-            "C": "누군가에게 특별한 기억으로 남았다고 느낄 때",
-            "D": "내가 참여한 활동들이 다 성공적으로 끝났을 때",
+            "A": "일단 핀셋 들고 꽃 배치부터 완벽하게 구상한다. (설계형)",
+            "B": "필 꽂히는 대로 풀칠부터 시작한다. (직관형)",
         },
     },
 ]
 
 # -----------------------------
-# 3) 가중치 테이블
-#    - 질문 인덱스 -> 선택지 -> {꽃: 점수}
-#    - 아래는 “안정적인 분산”이 나도록 설계된 기본값(튜닝 가능)
+# 3) 가중치 테이블 (질문 인덱스 -> 선택지 -> {꽃: 점수})
 # -----------------------------
 S = {
-    0: {  # Q1
-        "A": {"DAISY": 3, "ROSE": 1},
-        "B": {"FORGET": 2, "LAV": 1},
-        "C": {"LAV": 2, "DELPH": 1},
-        "D": {"DELPH": 2, "SUN": 1},
+    0: {  # Q1. E/I (다가가기 vs 기다리기)
+        "A": {"DAISY": 3, "ROSE": 3, "SUN": 2},  # E 성향
+        "B": {"FORGET": 3, "LAV": 3, "DELPH": 2}, # I 성향
     },
-    1: {  # Q2
-        "A": {"ROSE": 3, "FORGET": 1},
-        "B": {"DAISY": 3},
-        "C": {"FORGET": 3, "LAV": 1},
-        "D": {"DELPH": 2, "LAV": 2},
+    1: {  # Q2. T/F (우울해서 꽃 샀어)
+        "A": {"FORGET": 4, "DAISY": 2},           # F(공감)
+        "B": {"DAISY": 2, "SUN": 2},              # F/T(관심)
+        "C": {"DELPH": 3, "ROSE": 1},             # T(원인)
+        "D": {"LAV": 5, "ROSE": 2},               # T(팩폭)
     },
-    2: {  # Q3
-        "A": {"DELPH": 2, "SUN": 1},
-        "B": {"DAISY": 2, "DELPH": 1},
-        "C": {"LAV": 3},
-        "D": {"SUN": 3},
+    2: {  # Q3. T/F (망한 테라리움 피드백)
+        "A": {"FORGET": 3, "DAISY": 3, "SUN": 1}, # F(빈말/칭찬)
+        "B": {"LAV": 3, "DELPH": 3, "ROSE": 2},   # T(팩트/효율)
     },
-    3: {  # Q4
-        "A": {"SUN": 3},
-        "B": {"DAISY": 2, "SUN": 1},
-        "C": {"FORGET": 2, "ROSE": 1},
-        "D": {"DELPH": 2, "LAV": 1},
-    },
-    4: {  # Q5
-        "A": {"DAISY": 2, "ROSE": 1},
-        "B": {"DAISY": 3, "LAV": 1},
-        "C": {"LAV": 3},
-        "D": {"SUN": 2, "DELPH": 1},
-    },
-    5: {  # Q6
-        "A": {"DAISY": 2, "ROSE": 1},
-        "B": {"DAISY": 3, "LAV": 1},
-        "C": {"FORGET": 3},
-        "D": {"DELPH": 2, "LAV": 2},
-    },
-    6: {  # Q7
-        "A": {"ROSE": 3},
-        "B": {"ROSE": 2, "FORGET": 1},
-        "C": {"FORGET": 2, "LAV": 1},
-        "D": {"DELPH": 2, "LAV": 1},
-    },
-    7: {  # Q8 (결정 질문 역할: 동점 줄이기)
-        "A": {"DAISY": 3},
-        "B": {"LAV": 2, "DAISY": 1},
-        "C": {"ROSE": 2, "FORGET": 1},
-        "D": {"DELPH": 3},
+    3: {  # Q4. P/J (만들기 스타일)
+        "A": {"DELPH": 5, "LAV": 2, "FORGET": 1}, # J(계획)
+        "B": {"SUN": 5, "ROSE": 3, "DAISY": 2},   # P(직관)
     },
 }
 
+# -----------------------------
+# 4) 함수 정의
+# -----------------------------
 def compute_scores(answers):
     scores = {k: 0 for k in FLOWERS.keys()}
     for qi, ch in enumerate(answers):
-        for flower, pts in S[qi][ch].items():
-            scores[flower] += pts
+        if qi in S and ch in S[qi]:
+            for flower, pts in S[qi][ch].items():
+                scores[flower] += pts
     return scores
 
 def pick_winner(scores, last_choice):
-    """동점 처리:
-       1) 마지막 질문(Q8)의 기여 점수 큰 쪽 우선
-       2) 그래도 동점이면 랜덤
-    """
+    # 동점 처리 로직
     max_score = max(scores.values())
     cand = [k for k, v in scores.items() if v == max_score]
+    
     if len(cand) == 1:
         return cand[0]
-
-    # tie-break by Q8 bonus (answers[-1] == last_choice)
-    q8 = S[len(QUESTIONS) - 1].get(last_choice, {})
-    bonus = {k: q8.get(k, 0) for k in cand}
-    best = max(bonus.values())
-    cand2 = [k for k, b in bonus.items() if b == best]
-    return random.choice(cand2)
+    
+    # 동점일 경우 마지막 질문 가중치로 결정
+    q_last_idx = len(QUESTIONS) - 1
+    if q_last_idx in S:
+        q8 = S[q_last_idx].get(last_choice, {})
+        bonus = {k: q8.get(k, 0) for k in cand}
+        best = max(bonus.values())
+        cand2 = [k for k, b in bonus.items() if b == best]
+        return random.choice(cand2)
+    
+    return random.choice(cand)
 
 def safe_show_image(path_or_url, caption=None):
-    """이미지 파일이 없거나 로딩 실패해도 앱이 안 깨지게."""
-    try:
-        st.image(path_or_url, caption=caption, use_container_width=True)
-    except Exception:
-        # fallback: 이미지 대신 텍스트
-        st.info("이미지 준비 중이에요 🌸 (images/ 폴더에 파일을 넣으면 표시됩니다!)")
-
-# -----------------------------
-# 4) 세션 상태 초기화
-# -----------------------------
-if "q_idx" not in st.session_state:
-    st.session_state.q_idx = 0
-    st.session_state.answers = []  # ["A","C",...]
-    st.session_state.done = False
-    st.session_state.result = None
-    st.session_state.scores = None
+    """
+    이미지가 있으면 보여주고, 없거나 에러나면 대체 메시지를 출력하는 함수
+    """
+    # 1. 파일 경로인지 확인하고 존재 여부 체크
+    if os.path.exists(path_or_url):
+        try:
+            st.image(path_or_url, caption=caption, use_container_width=True)
+        except Exception:
+            st.warning("앗! 꽃 사진을 불러오는 중 오류가 생겼어요 🥺")
+    else:
+        # 2. 파일이 없을 때 출력할 메시지
+        st.info("🖼️ (아직 꽃 사진이 도착하지 않았어요!)\n\n상상력을 발휘해 주세요 ✨")
 
 def reset():
     st.session_state.q_idx = 0
@@ -246,70 +182,74 @@ def reset():
     st.session_state.scores = None
 
 # -----------------------------
-# 5) 헤더
+# 5) 메인 실행 로직
 # -----------------------------
-st.title("🌸 쿨라워 꽃 성향 테스트")
-st.caption("연애 + 친목 + 활동 취향으로 알아보는 나의 꽃 타입 (약 1분)")
 
-# -----------------------------
-# 6) 결과 화면
-# -----------------------------
+# 세션 상태 초기화
+if "q_idx" not in st.session_state:
+    reset()
+
+# 헤더
+st.title("🌸 쿨라워 꽃 성향 테스트")
+st.caption("새내기 환영회 & 동아리 활동 스타일로 알아보는 나의 꽃은?")
+
+# --- 결과 화면 ---
 if st.session_state.done and st.session_state.result:
     key = st.session_state.result
     info = FLOWERS[key]
 
-    st.subheader(f"{info['emoji']} 당신의 꽃은 **{info['name']}**!")
+    st.subheader(f"{info['emoji']} 당신은 **{info['name']}**!")
+    
+    # 이미지 출력 (없으면 대체 메시지)
     safe_show_image(info["image"], caption=f"{info['name']} 타입")
 
-    st.write(info["desc"])
-    st.write(f"✅ {info['role']}")
+    # 설명에 HTML 태그(br)가 포함되어 있으므로 unsafe_allow_html=True 권장
+    st.markdown(info["desc"], unsafe_allow_html=True)
+    st.success(info["role"])
 
-    # 2등도 같이 보여주면 재미/공유가 늘어남
+    # 2등 보여주기
     sorted_scores = sorted(st.session_state.scores.items(), key=lambda x: -x[1])
     second = sorted_scores[1][0] if len(sorted_scores) > 1 else None
+    
     if second:
-        st.markdown(f"보너스: 너랑 잘 맞는 서브 타입은 **{FLOWERS[second]['name']}** {FLOWERS[second]['emoji']}")
+        st.info(f"🤝 너랑 잘 맞는 파트너 꽃은? **{FLOWERS[second]['name']}** {FLOWERS[second]['emoji']}")
 
     st.divider()
+    
     col1, col2 = st.columns(2)
     with col1:
         if st.button("🔁 다시하기", use_container_width=True):
             reset()
             st.rerun()
     with col2:
-        # 공유는 실제로는 링크 공유가 제일 강함(부스라면 QR 옆에 공유 유도 문구)
-        st.button("📌 결과 캡처하기", use_container_width=True, disabled=True)
-        st.caption("폰으로 결과 화면 캡처해서 친구한테 보내기!")
-
-    # 디버그/운영 확인용(원하면 꺼도 됨)
-    with st.expander("내 점수 보기(운영/튜닝용)"):
-        st.write({FLOWERS[k]["name"]: v for k, v in sorted_scores})
-
+        st.button("📌 캡처해서 자랑하기", use_container_width=True, disabled=True)
+        st.caption("결과 화면을 캡처해서 공유해보세요!")
+    
     st.stop()
 
-# -----------------------------
-# 7) 질문 화면 (버튼 스텝퍼)
-# -----------------------------
+# --- 질문 화면 ---
 q_total = len(QUESTIONS)
 q_idx = st.session_state.q_idx
 
 # 진행률
 st.progress((q_idx) / q_total)
-
-# 진행 표기
-st.markdown(f"**진행도: {q_idx + 1} / {q_total}**")
+st.write(f"Question {q_idx + 1} / {q_total}")
 
 q_obj = QUESTIONS[q_idx]
-st.subheader(f"Q{q_idx + 1}. {q_obj['q']}")
+# 질문 텍스트
+st.subheader(f"Q{q_idx + 1}")
+st.markdown(f"**{q_obj['q']}**", unsafe_allow_html=True)
 
-# 보기 버튼(카드형 느낌)
-# 모바일에서 누르기 편하게 전체 폭 버튼
+# 여백
+st.write("")
+
+# 보기 버튼
 for key, text in q_obj["opts"].items():
-    if st.button(f"{key}. {text}", use_container_width=True):
+    if st.button(f"{text}", use_container_width=True):
         st.session_state.answers.append(key)
         st.session_state.q_idx += 1
 
-        # 마지막까지 답했으면 결과 계산
+        # 마지막 질문이었으면 결과 계산
         if st.session_state.q_idx >= q_total:
             scores = compute_scores(st.session_state.answers)
             winner = pick_winner(scores, st.session_state.answers[-1])
@@ -317,24 +257,22 @@ for key, text in q_obj["opts"].items():
             st.session_state.scores = scores
             st.session_state.result = winner
             st.session_state.done = True
-
+        
         st.rerun()
 
 st.divider()
 
-# 아래 컨트롤: 뒤로/리셋
+# 하단 컨트롤
 c1, c2 = st.columns(2)
 with c1:
     if st.button("⬅️ 뒤로", use_container_width=True, disabled=(q_idx == 0)):
-        # 뒤로 갈 때 마지막 답 제거
         if st.session_state.answers:
             st.session_state.answers.pop()
         st.session_state.q_idx = max(0, st.session_state.q_idx - 1)
         st.rerun()
-
 with c2:
     if st.button("🗑️ 처음부터", use_container_width=True):
         reset()
         st.rerun()
 
-st.caption("쿨쿨띠~ 🌸")
+st.caption("Made for CoolFlower 🌸")
