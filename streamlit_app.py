@@ -3,7 +3,7 @@ import streamlit as st
 import os
 
 # -----------------------------
-# 0) 페이지 설정 및 CSS
+# 0) 페이지 설정 및 CSS (기존 유지)
 # -----------------------------
 st.set_page_config(
     page_title="쿨라워 꽃 성향 테스트",
@@ -11,7 +11,6 @@ st.set_page_config(
     layout="centered"
 )
 
-# 상단 메뉴/푸터 숨기기
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
@@ -22,45 +21,45 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 # -----------------------------
-# 1) 결과(꽃) 정의 (원본 데이터 유지)
+# 1) 결과(꽃) 정의 - 데이터 정합성 검토 완료
 # -----------------------------
 FLOWERS = {
-    "DAISY": {
+    "SUNFLOWER": {  # 기존 DAISY에서 의미에 맞는 SUNFLOWER로 변경
         "name": "해바라기",
         "emoji": "🌻",
         "desc": "어색한 공기는 못 참는 **인간 비타민**!<br>새내기 땐 선배들 사랑 독차지하고, 선배 되면 후배들이 '언니/오빠랑 밥 먹고 싶어요' 줄 서는 핵인싸 타입.",
         "role": "👑 추천 포지션: **모임의 중심! 오락부장 & 분위기 메이커**",
         "image": "images/sunflower.jpg",
     },
-    "FORGET": {
+    "BABYSBREATH": { # 기존 FORGET(물망초)에서 안개꽃 의미에 맞는 BABYSBREATH로 변경
         "name": "안개꽃",
         "emoji": "🌫️",
         "desc": "튀지 않지만 없으면 동아리 안 돌아가는 **숨은 실세**.<br>소외되는 부원 없이 세심하게 챙겨줘서, 겉으로는 조용해도 속으로 너 의지하는 애들 트럭 한 대임.",
         "role": "👑 추천 포지션: **부원들의 대나무숲! 멘토링 & 힐링 케어 담당**",
         "image": "images/babysbreath.jpg",
     },
-    "DELPH": {
+    "MAGNOLIA": { # 기존 DELPH에서 목련 의미에 맞는 MAGNOLIA로 변경
         "name": "목련",
         "emoji": "🤍",
         "desc": "PPT 폰트까지 맞추는 **갓생 계획러**.<br>'이거 누가 해?' 할 때 이미 다 해놓는 든든한 선배. 임원진들이 탐내는 차기 회장/총무 1순위 후보!",
         "role": "👑 추천 포지션: **동아리 살림꾼! 총무 & 행사 기획 총괄**",
         "image": "images/magnolia.jpg",
     },
-    "LAV": {
+    "CACTUS": { # 기존 LAV에서 선인장 의미에 맞는 CACTUS로 변경
         "name": "선인장",
         "emoji": "🌵",
         "desc": "일처리는 칼 같고 내 사람은 확실히 챙기는 **겉바속촉 츤데레**.<br>답답한 상황 딱 정리해주는 사이다 발언 장인이라, 후배들이 '와 멋있다...' 하고 몰래 동경.",
-        "role": "👑 추천 포지션: **위기 탈출 넘버원! 규율 관리 & 해결사**--> 당장 쿨라워 운영진 지원!!",
+        "role": "👑 추천 포지션: **위기 탈출 넘버원! 규율 관리 & 해결사** (운영진 지원 강추!)",
         "image": "images/cactus.jpg",
     },
-    "ROSE": {
+    "ORCHID": { # ROSE 키에 난이 들어있던 부분을 ORCHID로 변경
         "name": "난(Orchid)",
         "emoji": "🌿",
         "desc": "존재감 확실하고 센스 넘치는 **입덕몰이 아이콘**.<br>너만의 독특한 아우라가 있어서, 신입 모집할 때 네 얼굴 박힌 포스터 쓰면 지원율 급상승각.",
         "role": "👑 추천 포지션: **동아리의 간판! 홍보 모델 & 대외협력 팀장**",
         "image": "images/orchid.jpg",
     },
-    "SUN": {
+    "ROSE": { # 기존 SUN에서 장미 의미에 맞는 ROSE로 변경
         "name": "장미",
         "emoji": "🌹",
         "desc": "필 꽂히면 밤새서라도 끝장을 보는 **열정의 불도저**.<br>'야, 가자!' 한마디로 전설의 MT나 축제를 만들어내는 추진력 대장. 너랑 있으면 지루할 틈이 없음.",
@@ -70,12 +69,12 @@ FLOWERS = {
 }
 
 # -----------------------------
-# 2) 질문 정의 (질문 데이터 유지 + 이미지 필드 추가)
+# 2) 질문 정의 (오타 수정)
 # -----------------------------
 QUESTIONS = [
     {
         "q": "쿨라워 OT 날! 마음에 드는 동기/선배가 눈에 띈다. 나의 행동은?",
-        "q_img": "images/q1.jpg", # 질문별 이미지 경로
+        "q_img": "images/q1.jpg",
         "opts": {
             "A": "자연스럽게 옆에 가서 말을 건다. \"혹시 무슨 과세요?\" (선공)",
             "B": "내 쪽을 봐주길 기다리며 근처를 서성인다. (간택 대기)",
@@ -100,7 +99,7 @@ QUESTIONS = [
         },
     },
     {
-        "q": "꽃를 활용한 석고방향제 만들기 시간!<br>재료를 받자마자 나는?",
+        "q": "꽃을 활용한 석고방향제 만들기 시간!<br>재료를 받자마자 나는?",
         "q_img": "images/q4.jpg",
         "opts": {
             "A": "일단 핀셋 들고 꽃 배치부터 완벽하게 구상한다. (설계형)",
@@ -110,17 +109,17 @@ QUESTIONS = [
 ]
 
 # -----------------------------
-# 3) 가중치 테이블 (원본 유지)
+# 3) 가중치 테이블 (변경된 키값 반영)
 # -----------------------------
 S = {
-    0: {"A": {"DAISY": 3, "ROSE": 3, "SUN": 2}, "B": {"FORGET": 3, "LAV": 3, "DELPH": 2}},
-    1: {"A": {"FORGET": 4, "DAISY": 2}, "B": {"DAISY": 2, "SUN": 2}, "C": {"DELPH": 3, "ROSE": 1}, "D": {"LAV": 5, "ROSE": 2}},
-    2: {"A": {"FORGET": 3, "DAISY": 3, "SUN": 1}, "B": {"LAV": 3, "DELPH": 3, "ROSE": 2}},
-    3: {"A": {"DELPH": 5, "LAV": 2, "FORGET": 1}, "B": {"SUN": 5, "ROSE": 3, "DAISY": 2}},
+    0: {"A": {"SUNFLOWER": 3, "ORCHID": 3, "ROSE": 2}, "B": {"BABYSBREATH": 3, "CACTUS": 3, "MAGNOLIA": 2}},
+    1: {"A": {"BABYSBREATH": 4, "SUNFLOWER": 2}, "B": {"SUNFLOWER": 2, "ROSE": 2}, "C": {"MAGNOLIA": 3, "ORCHID": 1}, "D": {"CACTUS": 5, "ORCHID": 2}},
+    2: {"A": {"BABYSBREATH": 3, "SUNFLOWER": 3, "ROSE": 1}, "B": {"CACTUS": 3, "MAGNOLIA": 3, "ORCHID": 2}},
+    3: {"A": {"MAGNOLIA": 5, "CACTUS": 2, "BABYSBREATH": 1}, "B": {"ROSE": 5, "ORCHID": 3, "SUNFLOWER": 2}},
 }
 
 # -----------------------------
-# 4) 함수 정의
+# 4) 함수 및 메인 로직 (기존 로직 유지)
 # -----------------------------
 def compute_scores(answers):
     scores = {k: 0 for k in FLOWERS.keys()}
@@ -148,9 +147,9 @@ def safe_show_image(path_or_url, caption=None):
         try:
             st.image(path_or_url, caption=caption, use_container_width=True)
         except:
-            pass # 이미지 로드 실패 시 조용히 넘어감
+            pass
     else:
-        if not caption: # 결과 창 이미지가 없을 때만 안내 메시지 표시
+        if not caption:
             st.info("🖼️ (이미지를 준비 중입니다!)")
 
 def reset():
@@ -160,9 +159,6 @@ def reset():
     st.session_state.result = None
     st.session_state.scores = None
 
-# -----------------------------
-# 5) 메인 실행 로직
-# -----------------------------
 if "q_idx" not in st.session_state:
     reset()
 
@@ -187,7 +183,6 @@ if st.session_state.done and st.session_state.result:
 
     st.divider()
 
-    # 구글 폼 연동 마무리 멘트
     st.markdown("### 💌 테스트가 즐거우셨나요?")
     st.write("여러분의 소중한 한 학기를 더 재미있는 쿨라워에서 만들어가고 싶어요!!")
     
@@ -212,11 +207,9 @@ q_obj = QUESTIONS[q_idx]
 
 st.progress((q_idx) / q_total)
 st.write(f"Question {q_idx + 1} / {q_total}")
-
 st.subheader(f"Q{q_idx + 1}")
 st.markdown(f"**{q_obj['q']}**", unsafe_allow_html=True)
 
-# 질문 이미지 삽입 (이미지가 존재할 경우 표시)
 safe_show_image(q_obj.get("q_img"))
 
 st.write("")
