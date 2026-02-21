@@ -194,16 +194,15 @@ if st.session_state.done and st.session_state.result:
     
     survey_url = "https://docs.google.com/forms/d/e/1FAIpQLSfjVbW6U0Goq35FS6EIJvf9NelmtupuGtWHtCWyG5UgK7s8mw/viewform"
     st.link_button("✍️ 쿨라워에게 지원하기!! (구글 폼)", survey_url, use_container_width=True)
+ # (기존) col1, col2 부분 삭제 후 아래 내용 삽입
     st.write("")
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("🔁 다시하기", use_container_width=True):
-            reset()
-            st.rerun()
-    with col2:
-        st.button("📌 캡처해서 자랑하기", use_container_width=True, disabled=True)
     
-    st.stop()
+    # 📸 캡처 가이드 디자인
+    st.info("📸 **캡처 타임!** 결과 화면을 길게 캡처해서 인스타그램 스토리나 단톡방에 자랑해 보세요!")
+
+    if st.button("🔁 테스트 다시하기", use_container_width=True):
+        reset()
+        st.rerun()
 
 # --- 질문 화면 ---
 q_total = len(QUESTIONS)
