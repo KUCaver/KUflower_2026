@@ -29,42 +29,42 @@ FLOWERS = {
         "emoji": "🌻",
         "desc": "어색한 공기는 못 참는 **인간 비타민**!<br>새내기 땐 선배들 사랑 독차지하고, 선배 되면 후배들이 '언니/오빠랑 밥 먹고 싶어요' 줄 서는 핵인싸 타입.",
         "role": "👑 추천 포지션: **모임의 중심! 오락부장 & 분위기 메이커**",
-        "image": "images/sunflower.jpg",
+        "image": "images/sunflower.png",
     },
     "BABYSBREATH": { # 기존 FORGET(물망초)에서 안개꽃 의미에 맞는 BABYSBREATH로 변경
         "name": "안개꽃",
         "emoji": "🌫️",
         "desc": "튀지 않지만 없으면 동아리 안 돌아가는 **숨은 실세**.<br>소외되는 부원 없이 세심하게 챙겨줘서, 겉으로는 조용해도 속으로 너 의지하는 애들 트럭 한 대임.",
         "role": "👑 추천 포지션: **부원들의 대나무숲! 멘토링 & 힐링 케어 담당**",
-        "image": "images/babysbreath.jpg",
+        "image": "images/babysbreath.png",
     },
     "MAGNOLIA": { # 기존 DELPH에서 목련 의미에 맞는 MAGNOLIA로 변경
         "name": "목련",
         "emoji": "🤍",
         "desc": "PPT 폰트까지 맞추는 **갓생 계획러**.<br>'이거 누가 해?' 할 때 이미 다 해놓는 든든한 선배. 임원진들이 탐내는 차기 회장/총무 1순위 후보!",
         "role": "👑 추천 포지션: **동아리 살림꾼! 총무 & 행사 기획 총괄**",
-        "image": "images/magnolia.jpg",
+        "image": "images/magnolia.png",
     },
     "CACTUS": { # 기존 LAV에서 선인장 의미에 맞는 CACTUS로 변경
         "name": "선인장",
         "emoji": "🌵",
         "desc": "일처리는 칼 같고 내 사람은 확실히 챙기는 **겉바속촉 츤데레**.<br>답답한 상황 딱 정리해주는 사이다 발언 장인이라, 후배들이 '와 멋있다...' 하고 몰래 동경.",
         "role": "👑 추천 포지션: **위기 탈출 넘버원! 규율 관리 & 해결사** (운영진 지원 강추!)",
-        "image": "images/cactus.jpg",
+        "image": "images/CACTUS.png",
     },
     "ORCHID": { # ROSE 키에 난이 들어있던 부분을 ORCHID로 변경
         "name": "난(Orchid)",
         "emoji": "🌿",
         "desc": "존재감 확실하고 센스 넘치는 **입덕몰이 아이콘**.<br>너만의 독특한 아우라가 있어서, 신입 모집할 때 네 얼굴 박힌 포스터 쓰면 지원율 급상승각.",
         "role": "👑 추천 포지션: **동아리의 간판! 홍보 모델 & 대외협력 팀장**",
-        "image": "images/orchid.jpg",
+        "image": "images/ORCHID.png",
     },
     "ROSE": { # 기존 SUN에서 장미 의미에 맞는 ROSE로 변경
         "name": "장미",
         "emoji": "🌹",
         "desc": "필 꽂히면 밤새서라도 끝장을 보는 **열정의 불도저**.<br>'야, 가자!' 한마디로 전설의 MT나 축제를 만들어내는 추진력 대장. 너랑 있으면 지루할 틈이 없음.",
         "role": "👑 추천 포지션: **판을 키우는 능력자! 축제/MT 추진 위원장**",
-        "image": "images/rose.jpg",
+        "image": "images/rose.png",
     },
 }
 
@@ -74,7 +74,7 @@ FLOWERS = {
 QUESTIONS = [
     {
         "q": "쿨라워 OT 날! 마음에 드는 동기/선배가 눈에 띈다. 나의 행동은?",
-        "q_img": "images/q1.jpg",
+        "q_img": "images/q1.png",
         "opts": {
             "A": "자연스럽게 옆에 가서 말을 건다. \"혹시 무슨 과세요?\" (선공)",
             "B": "내 쪽을 봐주길 기다리며 근처를 서성인다. (간택 대기)",
@@ -183,12 +183,17 @@ if st.session_state.done and st.session_state.result:
 
     st.divider()
 
+  # --- 결과 화면 섹션 (기존 코드 155번 줄 부근) ---
+
     st.markdown("### 💌 테스트가 즐거우셨나요?")
     st.write("여러분의 소중한 한 학기를 더 재미있는 쿨라워에서 만들어가고 싶어요!!")
     
+    # 👇 여기에 이미지를 추가하세요! 
+    # 'images/recruit_banner.jpg' 자리에 실제 파일 경로를 넣으시면 됩니다.
+    safe_show_image("images/recruit.png", caption="함께해요 쿨라워! 🌸")
+    
     survey_url = "https://docs.google.com/forms/d/e/1FAIpQLSfjVbW6U0Goq35FS6EIJvf9NelmtupuGtWHtCWyG5UgK7s8mw/viewform"
     st.link_button("✍️ 쿨라워에게 지원하기!! (구글 폼)", survey_url, use_container_width=True)
-
     st.write("")
     col1, col2 = st.columns(2)
     with col1:
