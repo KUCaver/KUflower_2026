@@ -204,10 +204,16 @@ if st.session_state.done and st.session_state.result:
         reset()
         st.rerun()
 
-# --- 질문 화면 ---
+# --- 질문 화면 ---# --- 질문 화면 섹션 (210번 줄 부근) ---
 q_total = len(QUESTIONS)
 q_idx = st.session_state.q_idx
-q_obj = QUESTIONS[q_idx]
+
+# 👇 이 안전장치를 추가하세요!
+if q_idx >= q_total:
+    st.session_state.done = True
+    st.rerun()
+
+q_obj = QUESTIONS[q_idx] # 여기서 에러가 났던 것인데, 위에서 걸러줍니다.
 
 st.progress((q_idx) / q_total)
 st.write(f"Question {q_idx + 1} / {q_total}")
