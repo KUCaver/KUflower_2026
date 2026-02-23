@@ -201,7 +201,7 @@ if st.session_state.done and st.session_state.result:
     st.write("여러분의 소중한 한 학기를 더 재미있는 쿨라워에서 만들어가고 싶어요!!")
     safe_show_image("images/recruit.png", caption="함께해요 쿨라워! 🌸")
     
-    survey_url = "https://docs.google.com/forms/d/e/1FAIpQLSfvFCjf_5DdIjO5lCm18fvjZU2EhbPNrZAEZMsd4ZdXK6WOtg/viewform"
+    survey_url = "https://forms.gle/EHHnZhZdhmqkarRJ8"
     st.link_button("✍️ 쿨라워에게 지원하기!! (구글 폼)", survey_url, width='stretch')
     st.write("")
     st.info("📸 **캡처 타임!** 결과 화면을 길게 캡처해서 인스타그램 스토리나 단톡방에 자랑해 보세요!")
