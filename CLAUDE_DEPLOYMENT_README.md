@@ -1,6 +1,8 @@
 # Claude Handoff: 축제 쿨BTI 신규 앱
 
-이 문서만 Claude에게 전달하면 된다.
+현재 실제 연결 작업용 문서는 `CLAUDE_CONNECT_README.md`다. Vercel/Supabase 연결을 Claude에게 맡길 때는 그 파일을 전달한다.
+
+이 문서는 초기 기획/구현 프롬프트 기록으로 남긴다.
 
 중요: 기존 `kuapps_relay`와 기존 `coolbti`는 건드리지 않는다. 축제용 쿨BTI는 새 디렉토리 `축제쿨비티아이` 안에서 별도 앱으로 관리한다.
 
