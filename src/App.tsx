@@ -42,15 +42,16 @@ function Intro({ onStart }: { onStart: () => void }) {
     <main className="screen screen--intro">
       <section className="hero">
         <div className="hero__copy">
-          <p className="system-label">쿨라워 화분 관상소</p>
+          <p className="system-label">녹색지대 화분 관상소</p>
           <h1>네 화분 찾아가라</h1>
           <p className="hero__lead">
-            당신의 화분 자아를 찾아준다. 7문항만 고르면 마지막 화분 가챠를
-            거쳐 결과 카드가 나온다.
+            녹색지대에서 드러나는 당신의 화분 자아를 감정해드립니다.
+            일감호, 부스, 공연, 봄밤, 스토리까지. 축제판에서 길 잃은 네 화분을
+            찾아가세요.
           </p>
           <button className="primary-button" type="button" onClick={onStart}>
             <span aria-hidden="true">▶</span>
-            관상 시작
+            내 화분상 보러가기
           </button>
         </div>
         <div className="hero__visual" aria-label="축제 화분 네 가지">
@@ -248,7 +249,7 @@ function Result({
             </div>
             <div>
               <dt>소속</dt>
-              <dd>쿨라워 화분 관상소</dd>
+              <dd>녹색지대 화분 관상소</dd>
             </div>
             <div>
               <dt>처방</dt>

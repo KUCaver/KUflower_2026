@@ -36,16 +36,16 @@ export const resultOrder: ResultKey[] = ['succulent', 'cactus', 'hoya', 'fishbon
 export const resultProfiles: Record<ResultKey, ResultProfile> = {
   succulent: {
     key: 'succulent',
-    name: '말라죽을 듯 안 죽는 다육이형',
+    name: '일감호 잔잔 다육이',
     plant: '다육이',
-    headline: '생존력, 무심함, 거리감으로 버티는 타입',
+    headline: '조용히 왔다가, 조용히 즐기고, 이상하게 오래 기억함.',
     summary:
-      '겉으로 보기엔 방치돼도 괜찮아 보이는 타입이다. 실제로도 꽤 버틴다. 다만 너무 오래 방치하면 조용히 상처받는다.',
-    festivalFlaw: '관심을 많이 주면 부담스러워하고, 방치하면 오히려 잘 크는 척한다.',
-    prescription: '너무 방치하지도, 너무 챙기지도 말고 적당한 거리에서 물 한 번 주기.',
-    recommendation: '작고 단단한 화분에 심은 다육이',
-    studentId: 'GZ-26-SUC',
-    vibeTags: ['조용한 생존', '은근한 몰입', '오래 남는 장면'],
+      '당신은 녹색지대의 소란 속에서도 자기 리듬을 지키는 사람입니다. 시끄러운 곳에 오래 있으면 기가 빨리지만, 막상 끝까지 남아 있는 경우가 많습니다. 크게 티 내지는 않아도 분위기 좋은 순간을 오래 저장해둡니다.',
+    festivalFlaw: '재밌는데 재밌다고 크게 표현하지 않음.',
+    prescription: '중간중간 사람 적은 곳에서 조용히 충전하세요.',
+    recommendation: '작고 단단한 다육이팟',
+    studentId: 'GREEN-2026-042',
+    vibeTags: ['잔잔함', '일감호', '오래 기억함'],
     colors: {
       accent: '#2f8f62',
       pot: '#f28f5b',
@@ -55,16 +55,16 @@ export const resultProfiles: Record<ResultKey, ResultProfile> = {
   },
   cactus: {
     key: 'cactus',
-    name: '물 주면 썩는 과잉보호 선인장형',
+    name: '스탠딩존 생존 선인장',
     plant: '선인장',
-    headline: '과몰입, 애정 과다, 방어력으로 굴러가는 타입',
+    headline: '불평은 하지만 결국 제일 오래 버팀.',
     summary:
-      '애정은 많은데 가끔 양 조절이 안 된다. 좋아하면 물부터 붓는 타입이라 상대가 선인장이라면 이미 위험하다.',
-    festivalFlaw: '마음은 예쁜데 상대 화분은 가끔 숨 막힌다.',
-    prescription: '좋아하는 마음을 한 번에 붓지 말고, 오늘은 반 컵만 주기.',
-    recommendation: '가시가 있지만 은근히 믿음직한 선인장',
-    studentId: 'GZ-26-CAC',
-    vibeTags: ['루트 설계', '체력 관리', '끝까지 생존'],
+      '당신은 축제를 감성보다 생존 전략으로 접근하는 사람입니다. 공연 시간, 줄 길이, 물 사는 타이밍, 귀가 루트까지 계산해야 마음이 놓입니다. 예민해 보일 수 있지만, 같이 다니면 제일 든든한 타입입니다.',
+    festivalFlaw: '계획이 틀어지면 바로 가시가 올라옴.',
+    prescription: '동선은 짜되, 축제의 변수도 콘텐츠라고 생각하세요.',
+    recommendation: '선명한 색감의 선인장팟',
+    studentId: 'GREEN-2026-042',
+    vibeTags: ['생존력', '스탠딩존', '계획형'],
     colors: {
       accent: '#1f7a68',
       pot: '#5c7cfa',
@@ -74,16 +74,16 @@ export const resultProfiles: Record<ResultKey, ResultProfile> = {
   },
   hoya: {
     key: 'hoya',
-    name: '햇빛 없으면 삐지는 하트호야형',
-    plant: '호야',
-    headline: '감성, 인정욕구, 섬세함에 반응하는 타입',
+    name: '봄밤 감성 하트호야',
+    plant: '하트호야',
+    headline: '축제는 지나가도 스토리 하이라이트는 남음.',
     summary:
-      '괜찮다고 말하지만 사실 분위기와 온도를 다 탄다. 예쁘다는 말에 약하고, 은근히 오래 기억한다.',
-    festivalFlaw: '관리 난이도는 낮은 척하지만 생각보다 까다롭다.',
-    prescription: '햇빛, 칭찬, 예쁜 조명을 적당히 공급하기.',
-    recommendation: '조명 아래에서 진가가 나는 하트호야',
-    studentId: 'GZ-26-HOY',
-    vibeTags: ['감성 과다', '스토리 장인', '조명 반응'],
+      '당신은 녹색지대의 봄밤, 조명, 음악에 약한 사람입니다. 그냥 축제라고 말하면서도, 해 지고 노래 나오면 혼자 감성 버튼이 눌립니다. 예쁜 결과물과 같이 찍은 사진을 오래 기억합니다.',
+    festivalFlaw: '괜찮다고 해놓고 사진 각도는 은근히 봄.',
+    prescription: '예쁜 조명 아래에서 한 장은 꼭 남기세요.',
+    recommendation: '하트 포인트가 있는 하트호야팟',
+    studentId: 'GREEN-2026-042',
+    vibeTags: ['봄밤', '조명', '스토리'],
     colors: {
       accent: '#7c3aed',
       pot: '#f6c85f',
@@ -93,16 +93,16 @@ export const resultProfiles: Record<ResultKey, ResultProfile> = {
   },
   fishbone: {
     key: 'fishbone',
-    name: '생긴 건 힙한데 은근 예민한 피쉬본형',
+    name: '구석부스 취향 피쉬본',
     plant: '피쉬본',
-    headline: '개성, 취향, 예민함이 선명한 타입',
+    headline: '메인보다 사이드에서 인생 콘텐츠를 건짐.',
     summary:
-      '평범한 건 싫고, 너무 튀는 건 또 부담스럽다. 취향 있다는 말은 좋아하지만 설명하라고 하면 귀찮다.',
-    festivalFlaw: '겉으로는 예술적이지만 안쪽은 그냥 흙일 때가 있다.',
-    prescription: '취향을 설명하려고 애쓰지 말고, 그냥 네 선반에 올려두기.',
-    recommendation: '평범한 선반을 이상하게 살리는 피쉬본',
-    studentId: 'GZ-26-FIS',
-    vibeTags: ['사이드 퀘스트', '취향 확실', '뜻밖의 수확'],
+      '당신은 메인보다 구석에서 재미를 찾는 사람입니다. 남들이 다 가는 곳보다, “저건 뭐 하는 데지?” 싶은 곳에 더 끌립니다. 평범한 기념품보다 이상하게 기억나는 결과물을 좋아합니다.',
+    festivalFlaw: '대중적인 건 싫다면서 은근히 반응은 신경 씀.',
+    prescription: '구석부스 하나쯤은 믿고 들어가도 됩니다.',
+    recommendation: '질감과 패턴이 살아 있는 피쉬본팟',
+    studentId: 'GREEN-2026-042',
+    vibeTags: ['구석부스', '취향', '사이드 콘텐츠'],
     colors: {
       accent: '#d94f30',
       pot: '#36a3a8',
@@ -115,182 +115,182 @@ export const resultProfiles: Record<ResultKey, ResultProfile> = {
 export const quizQuestions: QuizQuestion[] = [
   {
     id: 1,
-    title: '단톡에서 내 포지션은?',
+    title: '녹색지대 입장 10분 만에 나는?',
     options: [
       {
         id: 'A',
-        text: '말은 별로 안 하는데 다 보고 있음.',
+        text: '“일단 한 바퀴만 돌자” 해놓고 일감호 쪽 공기부터 마시는 중',
         result: 'succulent',
       },
       {
         id: 'B',
-        text: '좋은 생각 나면 냅다 던지고 갑자기 과몰입함.',
+        text: '공연 시간표, 줄 길이, 화장실 위치까지 이미 머릿속에 넣는 중',
         result: 'cactus',
       },
       {
         id: 'C',
-        text: '일단 “좋은데?” 하고 분위기를 살핌.',
+        text: '“잠깐만 여기 빛 예쁘다” 하면서 친구를 자연스럽게 세워둠',
         result: 'hoya',
       },
       {
         id: 'D',
-        text: '남들이 다 넘어간 이상한 포인트에 꽂힘.',
+        text: '메인 부스보다 옆에 있는 정체불명 부스가 더 신경 쓰임',
         result: 'fishbone',
       },
     ],
   },
   {
     id: 2,
-    title: '축제 부스에 끌리는 이유는?',
+    title: '친구가 “뭐부터 할까?”라고 물으면?',
     options: [
       {
         id: 'A',
-        text: '귀여운 거 하나 만들어서 오래 두고 싶음.',
+        text: '“사람 좀 덜한 데부터 가자. 나 아직 몸이 축제에 적응 안 됨”',
         result: 'succulent',
       },
       {
         id: 'B',
-        text: '친구가 하자고 하면 일단 같이 가서 챙겨줌.',
+        text: '“지금 저기부터 가야 안 꼬임. 20분 뒤엔 줄 길어질 듯”',
         result: 'cactus',
       },
       {
         id: 'C',
-        text: '결과물 들고 사진 찍으면 예쁠 것 같음.',
+        text: '“잠깐만, 저거 사진 먼저 찍고 가면 안 됨?”',
         result: 'hoya',
       },
       {
         id: 'D',
-        text: '뭔가 이상하게 웃겨서 해보고 싶음.',
+        text: '“저기 아무도 안 가는데 그래서 좀 궁금함”',
         result: 'fishbone',
       },
     ],
   },
   {
     id: 3,
-    title: '내가 식물이라면 제일 싫은 상황은?',
+    title: '부스 앞에서 나를 멈추게 하는 말은?',
     options: [
       {
         id: 'A',
-        text: '갑자기 물을 너무 많이 줌.',
+        text: '“직접 만든 거 가져갈 수 있어요”',
         result: 'succulent',
       },
       {
         id: 'B',
-        text: '내가 챙기던 판이 갑자기 엉망이 됨.',
+        text: '“대기 5분이면 돼요”',
         result: 'cactus',
       },
       {
         id: 'C',
-        text: '햇빛도 없고 예쁘다는 말도 없음.',
+        text: '“완성하면 사진 진짜 예쁘게 나와요”',
         result: 'hoya',
       },
       {
         id: 'D',
-        text: '이름을 너무 평범하게 지어줌.',
+        text: '“이거 해본 사람 아직 별로 없어요”',
         result: 'fishbone',
       },
     ],
   },
   {
     id: 4,
-    title: '내 인간관계 스타일은?',
+    title: '녹색지대에서 스토리 올릴 때 나는?',
     options: [
       {
         id: 'A',
-        text: '적당한 거리감이 제일 편함.',
+        text: '사람 많은 사진보다 분위기 있는 한 장 조용히 올림',
         result: 'succulent',
       },
       {
         id: 'B',
-        text: '친해지면 마음이 많아져서 챙길 게 늘어남.',
+        text: '사진 고르고 문구 정리하고 위치 태그까지 맞춰야 올림',
         result: 'cactus',
       },
       {
         id: 'C',
-        text: '낯가리는데 관심은 또 받고 싶음.',
+        text: '노래, 조명, 문구 삼박자 맞아야 마음이 편함',
         result: 'hoya',
       },
       {
         id: 'D',
-        text: '혼자 잘 살지만 불러주면 감.',
+        text: '남들은 왜 찍었는지 모를 장면을 혼자 만족하면서 올림',
         result: 'fishbone',
       },
     ],
   },
   {
     id: 5,
-    title: '화분을 꾸민다면?',
+    title: '공연 기다리는 동안 내 상태는?',
     options: [
       {
         id: 'A',
-        text: '심플하게. 오래 봐도 안 질리게.',
+        text: '말수는 줄었는데 사실 속으로는 꽤 즐기는 중',
         result: 'succulent',
       },
       {
         id: 'B',
-        text: '탄탄하게. 쉽게 망가지지 않게.',
+        text: '자리, 물, 귀가 루트, 친구 이탈 가능성까지 계산 중',
         result: 'cactus',
       },
       {
         id: 'C',
-        text: '귀엽고 예쁘게. 사진이 잘 나오게.',
+        text: '해 지는 순간 갑자기 “아 이게 청춘인가” 상태 됨',
         result: 'hoya',
       },
       {
         id: 'D',
-        text: '힙한 척하게. 설명하기 애매한데 내 취향으로.',
+        text: '공연보다 주변 사람들 리액션 구경이 더 재밌음',
         result: 'fishbone',
       },
     ],
   },
   {
     id: 6,
-    title: '결과 화분이 나왔을 때 제일 먼저 할 말은?',
+    title: '축제에서 돈 쓸 때 내 기준은?',
     options: [
       {
         id: 'A',
-        text: '생각보다 귀엽네. 책상에 두면 오래 보겠다.',
+        text: '책상 위에 두고 오래 볼 수 있으면 마음이 흔들림',
         result: 'succulent',
       },
       {
         id: 'B',
-        text: '이거 관리법도 같이 알려줘야 하는 거 아님?',
+        text: '가격, 퀄리티, 들고 다니기 편한지까지 따짐',
         result: 'cactus',
       },
       {
         id: 'C',
-        text: '잠깐만, 여기서 사진 찍고 가자.',
+        text: '예쁘면 이미 마음은 결제했고 손만 늦게 움직임',
         result: 'hoya',
       },
       {
         id: 'D',
-        text: '왜 나랑 닮았지? 살짝 킹받는데 마음에 듦.',
+        text: '이상한데 묘하게 내 취향이면 안 살 수가 없음',
         result: 'fishbone',
       },
     ],
   },
   {
     id: 7,
-    title: '부스에서 내 화분을 데려간다면?',
+    title: '축제 끝나고 집 가는 길에 드는 생각은?',
     options: [
       {
         id: 'A',
-        text: '조용히 이름 붙이고 오래 살려볼 생각부터 함.',
+        text: '“힘들었는데… 좋긴 했다.”',
         result: 'succulent',
       },
       {
         id: 'B',
-        text: '물 주는 날, 둘 위치, 이동 동선까지 정리함.',
+        text: '“오늘 동선 나쁘지 않았다. 다음엔 더 잘 짤 수 있음.”',
         result: 'cactus',
       },
       {
         id: 'C',
-        text: '등록증이랑 같이 예쁘게 찍어서 올림.',
+        text: '“사진 보니까 갑자기 좀 아련하네.”',
         result: 'hoya',
       },
       {
         id: 'D',
-        text: '남들이 안 고를 것 같은 이름을 붙임.',
+        text: '“근데 아까 그 부스 진짜 뭐였지? 아직도 웃김.”',
         result: 'fishbone',
       },
     ],
@@ -298,13 +298,13 @@ export const quizQuestions: QuizQuestion[] = [
 ];
 
 export const loadingMessages = [
-  '답변에 숨어 있는 화분 자아 확인 중...',
-  '쿨라워 화분 관상소에서 성향 분석 중...',
-  '부스 앞에서 멈춘 횟수 계산 중...',
-  '과습, 방치, 햇빛 부족 가능성 측정 중...',
-  '화분 가챠 후보군 정리 중...',
-  '당신의 화분을 쿨라워 부스에서 수색 중...',
-  '당신의 화분이 발견되었습니다.',
+  '일감호 수면에 비친 화분 자아 확인 중...',
+  '녹색지대 파도에 떠밀려온 성향 분석 중...',
+  '부스 앞에서 멈칫한 횟수 계산 중...',
+  '봄밤 감성 과다 여부 측정 중...',
+  '스탠딩존 생존 가능성 점검 중...',
+  '당신의 화분을 녹색지대에서 수색 중...',
+  '녹색지대에서 당신의 화분이 발견되었습니다.',
 ];
 
 export function calculateResult(answers: ResultKey[]) {
@@ -321,16 +321,7 @@ export function calculateResult(answers: ResultKey[]) {
   });
 
   const winner = resultOrder.reduce((best, key) => {
-    if (scores[key] > scores[best]) {
-      return key;
-    }
-
-    if (scores[key] === scores[best]) {
-      const lastAnswer = [...answers].reverse().find((answer) => answer === key || answer === best);
-      return lastAnswer === key ? key : best;
-    }
-
-    return best;
+    return scores[key] > scores[best] ? key : best;
   }, resultOrder[0]);
 
   return {

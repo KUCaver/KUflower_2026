@@ -23,6 +23,9 @@
 - Vite + React + TypeScript
 - 모바일 QR 유입 우선 UI
 - 7문항, 4결과, 로딩/가챠, 결과 카드 구현
+- 콘텐츠 고정 스펙은 `src/data/coolbti.ts`와 `AI_WORKFLOW_PROMPTS.md`를 기준으로 한다.
+- 메인 타이틀은 `네 화분 찾아가라`, 부제는 `녹색지대 화분 관상소`다.
+- 결과 유형 이름, 질문 문구, 답변 문구, 점수 매핑은 임의 변경 금지다.
 - DB 없이도 퀴즈 전체 흐름 동작
 - `vercel.json`에 SPA rewrite 설정 있음
 - `npm run build` 성공 확인됨

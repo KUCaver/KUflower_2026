@@ -19,6 +19,7 @@ npm run dev
 - `.env.example`: Supabase 연결이 필요해질 때 사용할 공개 환경 변수 예시
 - `CLAUDE_CONNECT_README.md`: Claude에게 넘길 Vercel/Supabase 연결 지시서
 - `readme.mk`: 사용자가 요청한 파일명에 맞춘 Claude 전달용 진입 문서
+- `AI_WORKFLOW_PROMPTS.md`: AI 작업을 단계별로 쪼개기 위한 고정 스펙/QA 지침
 - `docs/supabase-schema.sql`: 선택 기능용 Supabase DB 스키마
 
 ## 배포 방향

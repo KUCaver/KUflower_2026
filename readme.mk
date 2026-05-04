@@ -8,6 +8,14 @@ Claude에게는 이 파일과 `CLAUDE_CONNECT_README.md`, `docs/supabase-schema.
 
 `축제쿨비티아이` 앱을 Vercel에 배포하고, Supabase DB를 새로 구성해서 결과 저장까지 실제로 동작하게 만든다.
 
+## 콘텐츠 고정 스펙
+
+- 메인 타이틀: `네 화분 찾아가라`
+- 부제: `녹색지대 화분 관상소`
+- 데이터 기준: `src/data/coolbti.ts`
+- AI 작업 분할 기준: `AI_WORKFLOW_PROMPTS.md`
+- 질문/답변/결과/로딩 문구 임의 변경 금지
+
 ## 절대 수정 금지
 
 - `kuapps_relay`
