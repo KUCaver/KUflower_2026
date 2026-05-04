@@ -166,7 +166,6 @@ function Result({
   const { profile, scores, scorePercent } = result;
   const [copied, setCopied] = useState(false);
   const savedRef = useRef(false);
-  const [savedResult, setSavedResult] = useState<{ id: string; public_slug: string } | null>(null);
 
   useEffect(() => {
     if (savedRef.current || !supabase) return;
@@ -190,18 +189,10 @@ function Result({
           scorePercent,
         },
       })
-      .select('id, public_slug')
-      .single()
-      .then(({ data, error }) => {
-        if (error) {
-          console.warn('[coolbti] result save failed', error.message);
-        } else if (data) {
-          setSavedResult({ id: data.id, public_slug: data.public_slug });
-        }
+      .then(({ error }) => {
+        if (error) console.warn('[coolbti] result save failed', error.message);
       });
   }, [answers, profile, result.key, result.scores, scorePercent]);
-
-  void savedResult; // id/public_slug stored for future share URL feature
 
   const shareText = `내 축제 쿨BTI 결과는 ${profile.name}! ${profile.headline} 쿨라워 부스에서 네 화분 찾아가라.`;
 
