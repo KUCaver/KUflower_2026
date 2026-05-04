@@ -23,7 +23,7 @@ npm run dev
 
 ## 배포 방향
 
-MVP는 DB 없이 동작합니다. 결과 저장, 공유 URL, 사이버 화원 같은 기능이 필요해질 때만 Supabase를 붙입니다.
+MVP는 DB 없이도 동작합니다. 실제 서비스 연결 단계에서는 Vercel + Supabase를 기준으로 붙입니다.
 
 Vercel 권장 설정:
 
@@ -48,4 +48,4 @@ Supabase 연결을 붙일 수 있도록 `docs/supabase-schema.sql`을 준비했�
 - RLS: anon insert 허용, 공개 갤러리는 구매 인증 row만 select 허용
 - 구매 인증은 프론트 직접 update가 아니라 Supabase Edge Function으로 처리해야 합니다.
 
-Claude에게 연결 작업을 맡길 때는 `CLAUDE_CONNECT_README.md`를 전달하세요.
+Claude에게 연결 작업을 맡길 때는 `readme.mk`와 `CLAUDE_CONNECT_README.md`를 전달하세요.
