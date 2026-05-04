@@ -7,6 +7,10 @@
 - 작업 디렉터리: `축제쿨비티아이`
 - GitHub repo: `https://github.com/KUCaver/KUflower_2026`
 - 작업 브랜치: `codex/festival-coolbti`
+- Claude는 기존 로컬 앱 폴더 위에서 덧붙여 작업하지 않는다.
+- Claude는 완전히 새로운 작업 공간을 파서 이 브랜치를 새로 clone한 뒤 작업한다.
+- Vercel도 기존 프로젝트에 연결하지 말고, 축제 쿨BTI 전용 새 프로젝트를 만든다.
+- Supabase도 기존 프로젝트를 재사용하지 말고, 축제 쿨BTI 전용 새 프로젝트를 만든다.
 - 기존 `kuapps_relay` 수정 금지
 - 기존 `coolbti` 수정 금지
 - 비밀키, DB password, Supabase `service_role` key 커밋 금지
@@ -22,6 +26,36 @@
 - DB 없이도 퀴즈 전체 흐름 동작
 - `vercel.json`에 SPA rewrite 설정 있음
 - `npm run build` 성공 확인됨
+
+## 1-1. 작업 공간 분리 규칙
+
+Claude는 사용자의 기존 로컬 디렉터리에서 바로 작업하지 않는다. 특히 `kuapps_relay`, `coolbti`, 기존 `똥아리` 작업공간 안의 다른 앱을 열어 수정하면 안 된다.
+
+권장 시작 방식:
+
+```bash
+mkdir festival-coolbti-workspace
+cd festival-coolbti-workspace
+git clone --branch codex/festival-coolbti https://github.com/KUCaver/KUflower_2026.git .
+npm install
+npm run build
+```
+
+금지:
+
+- 기존 `kuapps_relay` 안에 `/coolbti`를 추가하거나 수정
+- 기존 `coolbti` Streamlit 앱 수정
+- 다른 로컬 앱의 설정, env, package 파일 재사용
+- 기존 Vercel 프로젝트에 root directory만 바꿔서 억지 연결
+- 기존 Supabase 프로젝트의 테이블에 끼워 넣기
+
+필수:
+
+- 새 clone workspace
+- 새 Vercel project
+- 새 Supabase project
+- 이 앱 전용 env
+- 이 앱 전용 DB schema
 
 실행:
 
@@ -60,8 +94,9 @@ codex/festival-coolbti
 
 Vercel 프로젝트 설정:
 
+- Project Name 예: `festival-coolbti`
 - Framework Preset: `Vite`
-- Root Directory: repo root, 단 이 브랜치는 축제 앱 파일이 루트에 있어야 한다.
+- Root Directory: repo root
 - Build Command: `npm run build`
 - Output Directory: `dist`
 - Install Command: `npm install`
@@ -75,6 +110,8 @@ VITE_SUPABASE_ANON_KEY=
 
 주의:
 
+- 기존 Vercel 프로젝트를 재사용하지 않는다.
+- 새 Vercel dashboard/project를 만들어 이 브랜치에 연결한다.
 - `SUPABASE_SERVICE_ROLE_KEY`는 Vercel 프론트 환경변수로 넣지 않는다.
 - Vercel에서 preview와 production 둘 다 같은 이름의 환경변수를 등록한다.
 - 배포 후 `/` 직접 접속, 새로고침, 모바일 화면을 확인한다.
@@ -86,6 +123,12 @@ Supabase 프로젝트를 새로 만든다. 이름 예:
 ```text
 festival-coolbti
 ```
+
+주의:
+
+- 기존 Supabase 프로젝트를 재사용하지 않는다.
+- 기존 앱의 테이블, RLS, Edge Function에 이 기능을 섞지 않는다.
+- 이 앱 전용 프로젝트에서 `docs/supabase-schema.sql`을 실행한다.
 
 SQL 실행:
 

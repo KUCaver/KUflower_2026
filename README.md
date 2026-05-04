@@ -49,3 +49,12 @@ Supabase 연결을 붙일 수 있도록 `docs/supabase-schema.sql`을 준비했�
 - 구매 인증은 프론트 직접 update가 아니라 Supabase Edge Function으로 처리해야 합니다.
 
 Claude에게 연결 작업을 맡길 때는 `readme.mk`와 `CLAUDE_CONNECT_README.md`를 전달하세요.
+
+## Claude 작업 방식
+
+Claude는 기존 앱 위에서 덧붙여 수정하지 않도록 지시되어 있습니다.
+
+- 새 로컬 작업 공간에서 `codex/festival-coolbti` 브랜치를 clone
+- 새 Vercel project 생성
+- 새 Supabase project 생성
+- 기존 `kuapps_relay`, 기존 `coolbti` 수정 금지

@@ -20,6 +20,24 @@ Claude에게는 이 파일과 `CLAUDE_CONNECT_README.md`, `docs/supabase-schema.
 - GitHub: `https://github.com/KUCaver/KUflower_2026`
 - 브랜치: `codex/festival-coolbti`
 
+## 작업 공간 분리
+
+Claude는 기존 로컬 앱 위에서 덧붙여 작업하지 않는다. 반드시 새 작업 공간을 만들고 브랜치를 새로 clone해서 진행한다.
+
+권장 시작:
+
+```bash
+mkdir festival-coolbti-workspace
+cd festival-coolbti-workspace
+git clone --branch codex/festival-coolbti https://github.com/KUCaver/KUflower_2026.git .
+npm install
+npm run build
+```
+
+Vercel도 기존 프로젝트를 재사용하지 않는다. 축제 쿨BTI 전용 새 Vercel project를 만든다.
+
+Supabase도 기존 프로젝트를 재사용하지 않는다. 축제 쿨BTI 전용 새 Supabase project를 만든다.
+
 ## Claude가 해야 할 일
 
 1. `npm install`
