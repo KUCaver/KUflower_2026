@@ -16,6 +16,7 @@ npm run dev
 - `src/data/coolbti.ts`: 7문항, 4결과, 로딩 문구, 결과 계산 로직
 - `src/App.tsx`: 랜딩, 퀴즈, 로딩, 결과 화면
 - `src/styles.css`: 모바일 QR 유입 우선 UI 스타일
+- `api/admin/results.js`: `/admin` DB 보정 화면이 호출하는 Vercel 서버리스 API
 - `.env.example`: Supabase 연결이 필요해질 때 사용할 공개 환경 변수 예시
 - `CLAUDE_CONNECT_README.md`: Claude에게 넘길 Vercel/Supabase 연결 지시서
 - `readme.mk`: 사용자가 요청한 파일명에 맞춘 Claude 전달용 진입 문서
@@ -39,6 +40,29 @@ Supabase를 붙일 경우:
 - `VITE_SUPABASE_ANON_KEY`
 
 `service_role` key, DB password는 절대 프론트엔드에 넣지 않습니다.
+
+## 관리자 화면
+
+배포 후 `/admin`으로 접속하면 `coolbti_results` row를 조회, 수정, 삭제할 수 있습니다.
+
+Vercel 환경 변수에 아래 값을 넣어야 합니다.
+
+- `SUPABASE_URL`: Supabase project URL
+- `SUPABASE_SERVICE_ROLE_KEY`: 서버리스 API 전용 service role key
+- `ADMIN_API_TOKEN`: `쿨쿨띠`
+
+관리자 화면의 토큰 입력은 `쿨쿨띠`, 영문 자판 입력값 `znfznfEl`, `znfznfel`을 모두 허용합니다.
+
+관리자 화면에서 가능한 작업:
+
+- 결과 row 조회 및 검색
+- 결과 유형 보정
+- 닉네임/화분명 보정
+- 구매 인증 여부 수정
+- `answers`, `scores`, `card_payload` JSON 보정
+- row 삭제
+
+주의: `SUPABASE_SERVICE_ROLE_KEY`는 절대 `VITE_` prefix로 만들지 말고, 브라우저 코드나 `.env.local` 공개 파일에 넣지 마세요.
 
 ## DB 준비 상태
 
