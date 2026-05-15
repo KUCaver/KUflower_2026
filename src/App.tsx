@@ -64,24 +64,25 @@ type AdminDraft = {
 };
 
 const activityPhotos = {
-  bouquetClose: '/쿨라워_선별사진/랜딩_꽃다발클로즈업.jpg',
-  bouquetHands: '/쿨라워_선별사진/부스_꾸미기실습.jpg',
-  plantDisplay: '/쿨라워_선별사진/랜딩_화분진열.jpg',
-  questionEntrance: '/쿨라워_선별사진/질문1_녹색지대입장.jpg',
-  questionFriends: '/쿨라워_선별사진/질문2_친구동선회의.jpg',
-  questionBooth: '/쿨라워_선별사진/질문3_부스체험재료.jpg',
-  questionStory: '/쿨라워_선별사진/질문4_스토리감성.jpg',
-  questionWaiting: '/쿨라워_선별사진/질문5_공연대기봄밤.jpg',
-  questionPick: '/쿨라워_선별사진/질문6_화분고르기.jpg',
-  questionHome: '/쿨라워_선별사진/질문7_축제끝귀가길.jpg',
-  boothWorkshop: '/쿨라워_선별사진/부스_체험현장.jpg',
+  bouquetClose: '/쿨라워_프론트기준/landing_bouquet.jpg',
+  bouquetHands: '/쿨라워_프론트기준/booth_decorate.jpg',
+  plantDisplay: '/쿨라워_프론트기준/landing_potshelf.jpg',
+  garden: '/쿨라워_프론트기준/landing_garden.jpg',
+  questionEntrance: '/쿨라워_프론트기준/landing_garden.jpg',
+  questionFriends: '/쿨라워_프론트기준/q_friends.jpg',
+  questionBooth: '/쿨라워_프론트기준/q_materials.jpg',
+  questionStory: '/쿨라워_프론트기준/q_story.jpg',
+  questionWaiting: '/쿨라워_프론트기준/q_springnight.jpg',
+  questionPick: '/쿨라워_프론트기준/q_potpick.jpg',
+  questionHome: '/쿨라워_프론트기준/q_walkhome.jpg',
+  boothWorkshop: '/쿨라워_프론트기준/booth_scene.jpg',
 };
 
 const resultPhotos: Record<ResultKey, string> = {
-  succulent: '/쿨라워_선별사진/결과_잔잔다육이.jpg',
-  cactus: '/쿨라워_선별사진/결과_생존선인장.jpg',
-  hoya: '/쿨라워_선별사진/결과_감성하트호야.jpg',
-  fishbone: '/쿨라워_선별사진/결과_취향피쉬본.jpg',
+  succulent: '/쿨라워_프론트기준/result_succulent.jpg',
+  cactus: '/쿨라워_프론트기준/result_cactus.jpg',
+  hoya: '/쿨라워_프론트기준/result_heart_hoya.jpg',
+  fishbone: '/쿨라워_프론트기준/result_fishbone.jpg',
 };
 
 const interestFormUrl = (import.meta.env.VITE_INTEREST_FORM_URL as string | undefined)?.trim();
@@ -166,6 +167,50 @@ const resultLabels = resultOrder.reduce(
   {} as Record<ResultKey, string>,
 );
 
+function StatusBar() {
+  return (
+    <div className="statusbar">
+      <span>9:41</span>
+      <span className="statusbar__right">
+        <span className="signal" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
+        <span>5G</span>
+        <span className="battery">86</span>
+      </span>
+    </div>
+  );
+}
+
+function HomeIndicator() {
+  return (
+    <div className="home-indicator" aria-hidden="true">
+      <span />
+    </div>
+  );
+}
+
+function TapeStrip({
+  className = '',
+  color = 'butter',
+}: {
+  className?: string;
+  color?: 'butter' | 'green' | 'coral';
+}) {
+  return <span className={`tape-strip tape-strip--${color} ${className}`} aria-hidden="true" />;
+}
+
+function twoDigit(value: number) {
+  return value.toString().padStart(2, '0');
+}
+
+function resultNumber(key: ResultKey) {
+  return twoDigit(resultOrder.indexOf(key) + 1);
+}
+
 function PlantMark({ profile, compact = false }: { profile: ResultProfile; compact?: boolean }) {
   return (
     <div
@@ -222,76 +267,100 @@ function PhotoFrame({
 function Intro({ onStart, onBooth }: { onStart: () => void; onBooth: () => void }) {
   return (
     <main className="screen screen--intro">
-      <section className="hero">
-        <div className="hero__copy">
-          <p className="system-label">2026 건국대학교 축제 · 쿨라워 부스</p>
-          <h1>우리가 비싼 게 아니라, 마진이 비싸다!</h1>
-          <p className="hero__subtitle">퍼스널 미니 반려화분 만들기</p>
-          <div className="hero__price-card">
-            <PlantMark profile={resultProfiles.succulent} compact />
-            <div>
-              <strong>
-                원가 약 <b>7,500원</b> / 판매가 <em>8,000원</em>
-              </strong>
-              <p>
-                준비비와 손이 많이 들어 마진은 정말 적어요.
-                <br />
-                밖에서 체험하면 보통 3~4만원대,
-                <br />
-                꽤 알차게 준비했어요.
-              </p>
-            </div>
+      <section className="cover-sheet">
+        <header className="cover-strip">
+          <div>
+            <span className="cover-strip__badge">K</span>
+            <strong>쿨라워 <em>× 녹색지대</em></strong>
           </div>
-          <div className="hero__feature-strip" aria-label="부스 체험 요약">
-            <article>
-              <span>01</span>
-              <strong>30초 꽃 성향 테스트</strong>
-              <p>질문 몇 개로 나의 꽃 타입 확인</p>
-            </article>
-            <article>
-              <span>02</span>
-              <strong>반려화분 체험</strong>
-              <p>미니식물 + 토분 꾸미기 + 식재</p>
-            </article>
-            <article>
-              <span>03</span>
-              <strong>현장 인증 이벤트</strong>
-              <p>결과 인증 시 스티커/작은 선물 제공 가능</p>
-            </article>
-          </div>
-          <button className="primary-button primary-button--wide" type="button" onClick={onStart}>
-            꽃 성향 테스트 시작하기
-            <span aria-hidden="true">›</span>
-          </button>
-          <button className="secondary-button secondary-button--wide" type="button" onClick={onBooth}>
-            부스 안내 보기
-            <span aria-hidden="true">›</span>
-          </button>
-          <p className="hero__note">작은 초록을 키워보세요.</p>
+          <span>ISSUE 2026 · VOL.04</span>
+        </header>
+        <hr className="dashline" />
+
+        <div className="cover-masthead">
+          <p className="kicker">
+            <span className="dot dot--coral" />
+            화분 관상소 · POT-OLOGY
+          </p>
+          <h1>
+            네 화분,
+            <br />
+            <span>찾아가라.</span>
+          </h1>
+          <p className="cover-masthead__hand">
+            녹색지대에서 드러나는
+            <br />
+            나의 화분 자아.
+          </p>
         </div>
 
-        <div className="hero__poster" aria-label="쿨라워 활동 사진과 화분 유형">
-          <PhotoFrame
-            src={activityPhotos.bouquetHands}
-            alt="쿨라워 활동에서 꽃다발을 함께 포장하는 손과 꽃"
-            label="꽃꾸 현장"
-            className="photo-frame--large"
+        <div className="cover-collage" aria-label="쿨라워 축제 프론트 기준 이미지 콜라주">
+          <div
+            className="cover-photo cover-photo--main"
+            style={{ backgroundImage: `url(${activityPhotos.plantDisplay})` }}
           />
-          <PhotoFrame
-            src={activityPhotos.plantDisplay}
-            alt="테이블 위에 놓인 식물 화분들"
-            label="추천 화분"
-          />
-          <PhotoFrame
-            src={activityPhotos.bouquetClose}
-            alt="흰 꽃다발 클로즈업"
-            label="부스 결과물"
-          />
-          <div className="hero__ticket">
-            <span>GREEN-2026</span>
-            <strong>반려화분 체험권</strong>
+          <TapeStrip className="cover-tape cover-tape--one" />
+          <div
+            className="cover-photo cover-photo--sub"
+            style={{ backgroundImage: `url(${activityPhotos.bouquetClose})` }}
+          >
+            <span>campus, april '26</span>
+          </div>
+          <TapeStrip className="cover-tape cover-tape--two" color="green" />
+          <div className="cover-sticker">
+            <strong>30s</strong>
+            <span>TEST</span>
           </div>
         </div>
+
+        <section className="cover-index" aria-label="체험 순서">
+          <div className="cover-index__head">
+            <span className="kicker">— INDEX</span>
+            <span>03 STEPS</span>
+          </div>
+          {[
+            ['01', '30초 화분 자아 테스트', '7문항으로 나의 화분 타입을 진단'],
+            ['02', '결과 캡처해 친구한테 자랑', '가챠처럼 뽑힌 내 화분 결과 공유'],
+            ['03', '부스에서 진짜로 만들어 데려가기', '미니식물 + 토분 꾸미기 + 식재'],
+          ].map(([number, title, text]) => (
+            <article key={number}>
+              <span>{number}</span>
+              <div>
+                <strong>{title}</strong>
+                <p>{text}</p>
+              </div>
+              <i aria-hidden="true">→</i>
+            </article>
+          ))}
+        </section>
+
+        <section className="cover-price" aria-label="체험 가격 안내">
+          <div>
+            <span className="kicker">— PRICE</span>
+            <em>거의 원가 *_*</em>
+          </div>
+          <strong>₩8,000</strong>
+          <p>
+            체험가 · 원가 ₩7,500
+            <br />
+            밖에서 비슷한 체험하면 보통 <b>30~40,000원</b>
+          </p>
+        </section>
+
+        <div className="cover-actions">
+          <button className="pill-button pill-button--primary" type="button" onClick={onStart}>
+            화분 자아 테스트 시작하기
+            <span aria-hidden="true">↳</span>
+          </button>
+          <button className="pill-button pill-button--ghost" type="button" onClick={onBooth}>
+            부스 안내 보기
+          </button>
+        </div>
+
+        <footer className="cover-footer">
+          <span>2026 KU FESTIVAL · 녹색지대</span>
+          <span>COOL FLOWER</span>
+        </footer>
       </section>
 
     </main>
@@ -301,11 +370,13 @@ function Intro({ onStart, onBooth }: { onStart: () => void; onBooth: () => void 
 function Quiz({
   currentIndex,
   answers,
+  onBack,
   onSelect,
   onHome,
 }: {
   currentIndex: number;
   answers: ResultKey[];
+  onBack: () => void;
   onSelect: (answer: ResultKey) => void;
   onHome: () => void;
 }) {
@@ -316,7 +387,16 @@ function Quiz({
 
   return (
     <main className="screen screen--quiz">
-      <HomeButton onHome={onHome} />
+      <nav className="quiz-topbar" aria-label="질문 이동">
+        <button type="button" onClick={onBack} aria-label="이전 질문으로 돌아가기">
+          ←
+        </button>
+        <span>화분 관상소 · 진단 중</span>
+        <button type="button" onClick={onHome}>
+          처음부터
+        </button>
+      </nav>
+
       <section
         className="quiz-panel"
         style={
@@ -328,24 +408,41 @@ function Quiz({
           } as CSSProperties
         }
       >
-        <div className="progress-row">
-          <span>
-            {currentIndex + 1} / {quizQuestions.length}
-          </span>
-          <div className="progress-track" aria-hidden="true">
-            <div className="progress-fill" style={{ width: `${progress}%` }} />
-          </div>
-        </div>
-
-        <div className="quiz-scene">
-          <img src={scene.image} alt={scene.title} />
+        <div className="quiz-progress">
           <div>
-            <span>{scene.label}</span>
-            <strong>{scene.title}</strong>
+            <strong>
+              {twoDigit(currentIndex + 1)}
+              <span>/{twoDigit(quizQuestions.length)}</span>
+            </strong>
+            <em>{progress}% · 진행</em>
+          </div>
+          <div
+            className="quiz-progress__segments"
+            aria-label={`진행률 ${progress}%`}
+            style={{ '--columns': quizQuestions.length } as CSSProperties}
+          >
+            {quizQuestions.map((item, index) => (
+              <span key={item.id} className={index <= currentIndex ? 'is-filled' : ''} />
+            ))}
           </div>
         </div>
 
-        <h2>{question.title}</h2>
+        <div className="quiz-card">
+          <div className="quiz-card__tag">QUESTION · {twoDigit(currentIndex + 1)}</div>
+          <TapeStrip className="quiz-card__tape" color="coral" />
+          <h2>{question.title}</h2>
+          <div className="quiz-photo">
+            <img src={scene.image} alt={scene.title} />
+            <TapeStrip className="quiz-photo__tape quiz-photo__tape--left" />
+            <TapeStrip className="quiz-photo__tape quiz-photo__tape--right" color="green" />
+            <span>{scene.label} · {scene.title}</span>
+          </div>
+          <p>
+            <span className="dot" />
+            정답은 없어요. 첫 직감대로 골라보세요.
+          </p>
+        </div>
+
         <div className="option-list">
           {question.options.map((option) => (
             <button
@@ -356,16 +453,24 @@ function Quiz({
             >
               <span className="option-button__id">{option.id}</span>
               <span>{option.text}</span>
+              <i>{resultProfiles[option.result].plant}</i>
             </button>
           ))}
         </div>
-        <div className="answer-dots" aria-label={`선택 완료 ${answers.length}개`}>
-          {quizQuestions.map((questionItem, index) => (
-            <span
-              className={index < answers.length ? 'answer-dot answer-dot--filled' : 'answer-dot'}
-              key={questionItem.id}
-            />
-          ))}
+
+        <div className="quiz-meta">
+          <div>
+            <span>다음 질문 →</span>
+            <strong>{quizQuestions[currentIndex + 1]?.title ?? '화분 가챠 결과 확인'}</strong>
+          </div>
+          <div className="answer-dots" aria-label={`선택 완료 ${answers.length}개`}>
+            {quizQuestions.map((questionItem, index) => (
+              <span
+                className={index < answers.length ? 'answer-dot answer-dot--filled' : 'answer-dot'}
+                key={questionItem.id}
+              />
+            ))}
+          </div>
         </div>
       </section>
     </main>
@@ -546,9 +651,18 @@ function Result({
 
   return (
     <main className="screen screen--result">
-      <HomeButton onHome={onHome} />
+      <nav className="result-topbar">
+        <span>
+          <i className="dot dot--coral" />
+          당신의 화분 자아
+        </span>
+        <button type="button" onClick={onRestart}>
+          ↺ 다시하기
+        </button>
+      </nav>
+
       <section
-        className="result-hero"
+        className="result-cover"
         style={
           {
             '--accent': profile.colors.accent,
@@ -558,125 +672,117 @@ function Result({
           } as CSSProperties
         }
       >
-        <div className="result-hero__visual">
-          <PlantMark profile={profile} />
-          <PhotoFrame
-            src={resultPhotos[result.key]}
-            alt="테이블 위에 진열된 식물 화분들"
-            label="실물 화분 분위기"
-            className="photo-frame--result"
-          />
-        </div>
-        <div className="result-hero__copy">
-          <p className="system-label">관상 완료</p>
-          <h1>{profile.name}</h1>
-          <p>{profile.summary}</p>
-          <div className="result-hero__actions">
-            <button className="primary-button" type="button" onClick={onStudent}>
-              식물학생증 발급받기
-            </button>
-            <button className="secondary-button" type="button" onClick={onBooth}>
-              부스 정보 보기
-            </button>
-            {interestFormUrl && (
-              <a
-                className="secondary-button"
-                href={interestFormUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                쿨라워 더 알아보기 / 관심 남기기
-              </a>
-            )}
+        <div className="result-title">
+          <div>
+            <span>NO. {resultNumber(result.key)} / {twoDigit(resultOrder.length)}</span>
+            <i />
+            <em>{profile.plant} 자아 발견</em>
           </div>
+          <h1>{profile.name}</h1>
+          <p>{profile.headline}</p>
         </div>
-      </section>
 
-      <section className="capture-card" aria-label="공유용 결과 카드">
-        <div className="capture-card__header">
-          <span>CAPTURE CARD</span>
-          <strong>{profile.name}</strong>
-        </div>
-        <p>{profile.headline}</p>
-        <div className="capture-card__grid">
+        <figure className="result-polaroid">
+          <img src={resultPhotos[result.key]} alt={`${profile.name} 결과 이미지`} />
+          <figcaption>
+            나만의 한 화분 — <span>FOUND</span>
+          </figcaption>
+          <TapeStrip className="result-polaroid__tape" />
+          <div className="result-score-badge">
+            <span>MATCH</span>
+            <strong>{scorePercent}%</strong>
+          </div>
+        </figure>
+
+        <article className="diagnosis-card">
+          <span className="kicker">— DIAGNOSIS</span>
+          <strong>{profile.summary}</strong>
+        </article>
+
+        <section className="result-traits" aria-label="결과 상세 정보">
           <article>
-            <span>당신의 쿨라워 포지션</span>
+            <span>축제적 결함</span>
+            <strong>{profile.festivalFlaw}</strong>
+          </article>
+          <article>
+            <span>처방</span>
+            <strong>{profile.prescription}</strong>
+          </article>
+          <article>
+            <span>추천 화분</span>
+            <strong>{profile.recommendation}</strong>
+          </article>
+          <article>
+            <span>쿨라워 포지션</span>
             <strong>{engagement.position}</strong>
           </article>
-          <article>
-            <span>스태프 멘트</span>
-            <strong>{engagement.staffLine}</strong>
-          </article>
-          <article>
-            <span>부스 현장 미션</span>
-            <strong>{engagement.mission}</strong>
-          </article>
-          <article>
-            <span>스토리 공유 한 줄</span>
-            <strong>{engagement.storyLine}</strong>
-          </article>
+        </section>
+
+        <section className="result-friends">
+          <div>
+            <span className="kicker">— RESULT SCORES</span>
+            <em>by 쿨라워</em>
+          </div>
+          {resultOrder.map((key) => (
+            <article key={key}>
+              <img src={resultPhotos[key]} alt={`${resultProfiles[key].name} 미리보기`} />
+              <div>
+                <span>{resultProfiles[key].plant}</span>
+                <strong>{scores[key]}점</strong>
+              </div>
+            </article>
+          ))}
+        </section>
+
+        <section className="result-booth-card">
+          <span className="kicker">— REAL POT, REAL YOU</span>
+          <h2>
+            이제 진짜
+            <br />
+            반려화분도 만들어볼까요?
+          </h2>
+          <p>
+            미니식물 직접 고르기 → 토분 꾸미기 → 식재해서 완성.
+            전용 가방 · 스티커 · 쿨라워 명함도 함께 드려요.
+          </p>
+          <div>
+            <img src={activityPhotos.bouquetHands} alt="쿨라워 부스 체험 이미지" />
+            <strong>체험가 ₩8,000 · 원가 약 ₩7,500</strong>
+          </div>
+        </section>
+
+        <section className="result-share">
+          <div>
+            <strong>✦ 캡처해서 친구한테 자랑하기</strong>
+            <span>#쿨라워 #화분자아 #건국대축제</span>
+          </div>
+          <button type="button" onClick={copyResult}>
+            {copied ? '복사 완료' : '문구 복사'}
+          </button>
+        </section>
+
+        <div className="result-actions">
+          <button className="pill-button pill-button--primary" type="button" onClick={onStudent}>
+            식물학생증 발급받기
+          </button>
+          <button className="pill-button pill-button--ghost" type="button" onClick={onBooth}>
+            부스 정보 보기
+          </button>
+          <button className="pill-button pill-button--ghost" type="button" onClick={onHome}>
+            홈으로 돌아가기
+          </button>
+          {interestFormUrl && (
+            <a
+              className="pill-button pill-button--coral"
+              href={interestFormUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              쿨라워 부스 관심 등록 / 지원하기
+            </a>
+          )}
         </div>
       </section>
-
-      <section className="result-grid">
-        <article className="score-card">
-          <span>화분 관상 점수</span>
-          <strong>{scorePercent}</strong>
-          <p>{profile.headline}</p>
-        </article>
-
-        <article className="recommend-card">
-          <span>추천 화분</span>
-          <div className="recommend-card__body">
-            <PlantMark profile={profile} compact />
-            <div>
-              <strong>{profile.recommendation}</strong>
-              <p>이 화분, 실제로 만들 수 있음.</p>
-            </div>
-          </div>
-        </article>
-
-        <article className="text-card">
-          <h2>축제적 결함</h2>
-          <p>{profile.festivalFlaw}</p>
-        </article>
-
-        <article className="text-card">
-          <h2>처방</h2>
-          <p>{profile.prescription}</p>
-        </article>
-      </section>
-
-      <section className="tag-board" aria-label="결과 성향 태그">
-        {profile.vibeTags.map((tag) => (
-          <span key={tag}>{tag}</span>
-        ))}
-      </section>
-
-      <section className="score-board">
-        {resultOrder.map((key) => (
-          <div className="score-row" key={key}>
-            <span>{resultProfiles[key].plant}</span>
-            <div className="score-row__bar" aria-hidden="true">
-              <i style={{ width: `${(scores[key] / quizQuestions.length) * 100}%` }} />
-            </div>
-            <strong>{scores[key]}</strong>
-          </div>
-        ))}
-      </section>
-
-      <section className="cta-row">
-        <button className="primary-button" type="button" onClick={copyResult}>
-          {copied ? '복사 완료' : '결과 복사'}
-        </button>
-        <button className="secondary-button" type="button" onClick={onRestart}>
-          다시 찾기
-        </button>
-      </section>
-
-      <p className="booth-copy">
-        이 화분, 실제로 만들 수 있음. 쿨라워 부스에서 네 화분 찾아가라.
-      </p>
     </main>
   );
 }
@@ -1419,44 +1525,62 @@ export default function App() {
     setCurrentIndex((index) => index + 1);
   }
 
+  function backQuestion() {
+    if (currentIndex <= 0) {
+      goHome();
+      return;
+    }
+
+    setAnswers((current) => current.slice(0, -1));
+    setCurrentIndex((index) => Math.max(0, index - 1));
+  }
+
+  const screen =
+    step === 'intro' ? (
+      <Intro onStart={startQuiz} onBooth={() => setStep('booth')} />
+    ) : step === 'quiz' ? (
+      <Quiz
+        currentIndex={currentIndex}
+        answers={answers}
+        onBack={backQuestion}
+        onSelect={selectAnswer}
+        onHome={goHome}
+      />
+    ) : step === 'loading' ? (
+      <Loading onDone={() => setStep('gacha')} onHome={goHome} />
+    ) : step === 'gacha' ? (
+      <Gacha answers={answers} onReveal={() => setStep('result')} onHome={goHome} />
+    ) : step === 'result' ? (
+      <Result
+        answers={answers}
+        savedResultFingerprintRef={savedResultFingerprintRef}
+        onSavedResult={setSavedResult}
+        onRestart={startQuiz}
+        onStudent={() => setStep('student')}
+        onBooth={() => setStep('booth')}
+        onHome={goHome}
+      />
+    ) : step === 'student' ? (
+      <StudentCardScreen
+        answers={answers}
+        savedResult={savedResult}
+        onResult={() => setStep('result')}
+        onBooth={() => setStep('booth')}
+        onHome={goHome}
+      />
+    ) : (
+      <BoothInfoScreen answers={answers} onResult={() => setStep('result')} onHome={goHome} />
+    );
+
   return (
     <div className="app-shell">
       {isAdminPath && <AdminDashboard />}
-      {!isAdminPath && step === 'intro' && <Intro onStart={startQuiz} onBooth={() => setStep('booth')} />}
-      {!isAdminPath && step === 'quiz' && (
-        <Quiz
-          currentIndex={currentIndex}
-          answers={answers}
-          onSelect={selectAnswer}
-          onHome={goHome}
-        />
-      )}
-      {!isAdminPath && step === 'loading' && <Loading onDone={() => setStep('gacha')} onHome={goHome} />}
-      {!isAdminPath && step === 'gacha' && (
-        <Gacha answers={answers} onReveal={() => setStep('result')} onHome={goHome} />
-      )}
-      {!isAdminPath && step === 'result' && (
-        <Result
-          answers={answers}
-          savedResultFingerprintRef={savedResultFingerprintRef}
-          onSavedResult={setSavedResult}
-          onRestart={startQuiz}
-          onStudent={() => setStep('student')}
-          onBooth={() => setStep('booth')}
-          onHome={goHome}
-        />
-      )}
-      {!isAdminPath && step === 'student' && (
-        <StudentCardScreen
-          answers={answers}
-          savedResult={savedResult}
-          onResult={() => setStep('result')}
-          onBooth={() => setStep('booth')}
-          onHome={goHome}
-        />
-      )}
-      {!isAdminPath && step === 'booth' && (
-        <BoothInfoScreen answers={answers} onResult={() => setStep('result')} onHome={goHome} />
+      {!isAdminPath && (
+        <div className="phone-shell">
+          <StatusBar />
+          {screen}
+          <HomeIndicator />
+        </div>
       )}
     </div>
   );
