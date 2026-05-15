@@ -8,6 +8,7 @@ const editableFields = new Set([
   'card_payload',
   'user_nickname',
   'plant_name',
+  'user_intro',
   'is_purchased',
   'purchased_at',
 ]);
@@ -107,6 +108,11 @@ function normalizePatch(input) {
       continue;
     }
 
+    if (key === 'user_intro') {
+      patch.user_intro = cleanText(value, 80);
+      continue;
+    }
+
     if (key === 'is_purchased') {
       if (typeof value !== 'boolean') throw new Error('is_purchased must be boolean.');
       patch.is_purchased = value;
@@ -132,7 +138,7 @@ async function listResults(req, res, supabase) {
   let query = supabase
     .from('coolbti_results')
     .select(
-      'id, public_slug, result_key, answers, scores, card_payload, user_nickname, plant_name, is_purchased, purchased_at, created_at',
+      'id, public_slug, result_key, answers, scores, card_payload, user_nickname, plant_name, user_intro, is_purchased, purchased_at, created_at',
     )
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -145,7 +151,7 @@ async function listResults(req, res, supabase) {
   if (isPurchased === 'false') query = query.eq('is_purchased', false);
 
   if (q) {
-    query = query.or(`public_slug.ilike.%${q}%,user_nickname.ilike.%${q}%,plant_name.ilike.%${q}%`);
+    query = query.or(`public_slug.ilike.%${q}%,user_nickname.ilike.%${q}%,plant_name.ilike.%${q}%,user_intro.ilike.%${q}%`);
   }
 
   const { data, error } = await query;
@@ -169,7 +175,7 @@ async function updateResult(req, res, supabase) {
     .update(normalized)
     .eq('id', id)
     .select(
-      'id, public_slug, result_key, answers, scores, card_payload, user_nickname, plant_name, is_purchased, purchased_at, created_at',
+      'id, public_slug, result_key, answers, scores, card_payload, user_nickname, plant_name, user_intro, is_purchased, purchased_at, created_at',
     )
     .single();
 

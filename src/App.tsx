@@ -15,7 +15,11 @@ import {
   type ResultKey,
   type ResultProfile,
 } from './data/coolbti';
-import { supabase } from './lib/supabase';
+import {
+  createResultRecord,
+  updateResultStudentInfo,
+  type SavedResultRecord,
+} from './lib/resultApi';
 
 type Step = 'intro' | 'quiz' | 'loading' | 'gacha' | 'result' | 'student' | 'booth';
 
@@ -42,6 +46,7 @@ type AdminResultRow = {
   card_payload: Record<string, unknown>;
   user_nickname: string | null;
   plant_name: string | null;
+  user_intro: string | null;
   is_purchased: boolean;
   purchased_at: string | null;
   created_at: string;
@@ -51,6 +56,7 @@ type AdminDraft = {
   result_key: ResultKey;
   user_nickname: string;
   plant_name: string;
+  user_intro: string;
   is_purchased: boolean;
   answers: string;
   scores: string;
@@ -478,6 +484,7 @@ function Gacha({
 function Result({
   answers,
   savedResultFingerprintRef,
+  onSavedResult,
   onRestart,
   onStudent,
   onBooth,
@@ -485,6 +492,7 @@ function Result({
 }: {
   answers: ResultKey[];
   savedResultFingerprintRef: MutableRefObject<string | null>;
+  onSavedResult: (record: SavedResultRecord | null) => void;
   onRestart: () => void;
   onStudent: () => void;
   onBooth: () => void;
@@ -497,12 +505,10 @@ function Result({
 
   useEffect(() => {
     const fingerprint = answers.join('-');
-    if (savedResultFingerprintRef.current === fingerprint || !supabase) return;
+    if (savedResultFingerprintRef.current === fingerprint) return;
     savedResultFingerprintRef.current = fingerprint;
 
-    supabase
-      .from('coolbti_results')
-      .insert({
+    createResultRecord({
         result_key: result.key,
         answers,
         scores: result.scores,
@@ -518,10 +524,13 @@ function Result({
           scorePercent,
         },
       })
-      .then(({ error }) => {
-        if (error) console.warn('[coolbti] result save failed', error.message);
+      .then((record) => {
+        onSavedResult(record);
+      })
+      .catch((error) => {
+        console.warn('[coolbti] result save failed', error);
       });
-  }, [answers, profile, result.key, result.scores, savedResultFingerprintRef, scorePercent]);
+  }, [answers, onSavedResult, profile, result.key, result.scores, savedResultFingerprintRef, scorePercent]);
 
   const shareText = `내 축제 쿨BTI 결과는 ${profile.name}! ${profile.headline} 쿨라워 부스에서 네 화분 찾아가라.`;
 
@@ -674,11 +683,13 @@ function Result({
 
 function StudentCardScreen({
   answers,
+  savedResult,
   onResult,
   onBooth,
   onHome,
 }: {
   answers: ResultKey[];
+  savedResult: SavedResultRecord | null;
   onResult: () => void;
   onBooth: () => void;
   onHome: () => void;
@@ -688,6 +699,7 @@ function StudentCardScreen({
   const [plantName, setPlantName] = useState('');
   const [intro, setIntro] = useState('');
   const [saved, setSaved] = useState(false);
+  const [saveStatus, setSaveStatus] = useState('');
 
   const displayNickname = nickname.trim() || '지나가던 건대생';
   const displayPlantName = plantName.trim() || '말랑다육';
@@ -720,7 +732,35 @@ function StudentCardScreen({
     return chunks.slice(0, 3);
   }
 
-  function downloadStudentCard() {
+  async function saveStudentInfoToDb() {
+    if (!savedResult) {
+      setSaveStatus('DB 저장 정보가 없어 이미지 저장만 진행했습니다.');
+      return;
+    }
+
+    try {
+      await updateResultStudentInfo(savedResult, {
+        user_nickname: displayNickname,
+        plant_name: displayPlantName,
+        user_intro: displayIntro,
+        card_payload: {
+          studentCard: {
+            nickname: displayNickname,
+            plantName: displayPlantName,
+            intro: displayIntro,
+            resultName: profile.name,
+            studentId: profile.studentId,
+          },
+        },
+      });
+      setSaveStatus('식물학생증 정보가 DB에 저장되었습니다.');
+    } catch (error) {
+      console.warn('[coolbti] student card save failed', error);
+      setSaveStatus('이미지는 저장됐고, DB 저장은 실패했습니다. 환경변수를 확인하세요.');
+    }
+  }
+
+  async function downloadStudentCard() {
     const featureLines = splitForSvg(profile.headline, 23);
     const cautionLines = splitForSvg(profile.festivalFlaw, 23);
     const introLines = splitForSvg(displayIntro, 24);
@@ -774,6 +814,7 @@ function StudentCardScreen({
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
+    await saveStudentInfoToDb();
     setSaved(true);
     window.setTimeout(() => setSaved(false), 1800);
   }
@@ -828,6 +869,7 @@ function StudentCardScreen({
             </button>
           </div>
           {saved && <p className="student-form__notice">스토리에 올리고 녹색지대에서 네 화분 찾아가라.</p>}
+          {saveStatus && <p className="student-form__notice">{saveStatus}</p>}
         </div>
 
         <article className="plant-id-card" aria-label="녹색지대 식물학생증 미리보기">
@@ -988,6 +1030,7 @@ function makeAdminDraft(row: AdminResultRow): AdminDraft {
     result_key: row.result_key,
     user_nickname: row.user_nickname ?? '',
     plant_name: row.plant_name ?? '',
+    user_intro: row.user_intro ?? '',
     is_purchased: row.is_purchased,
     answers: toJsonText(row.answers),
     scores: toJsonText(row.scores),
@@ -1103,6 +1146,7 @@ function AdminDashboard() {
         result_key: draft.result_key,
         user_nickname: draft.user_nickname.trim() || null,
         plant_name: draft.plant_name.trim() || null,
+        user_intro: draft.user_intro.trim() || null,
         is_purchased: draft.is_purchased,
         answers: parseAdminJson('answers', draft.answers),
         scores: parseAdminJson('scores', draft.scores),
@@ -1285,6 +1329,14 @@ function AdminDashboard() {
                       maxLength={30}
                     />
                   </label>
+                  <label>
+                    한 줄 소개
+                    <input
+                      value={draft.user_intro}
+                      onChange={(event) => updateDraft(row.id, { user_intro: event.target.value })}
+                      maxLength={80}
+                    />
+                  </label>
                   <label className="admin-check">
                     <input
                       type="checkbox"
@@ -1336,18 +1388,21 @@ export default function App() {
   const [step, setStep] = useState<Step>('intro');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<ResultKey[]>([]);
+  const [savedResult, setSavedResult] = useState<SavedResultRecord | null>(null);
   const savedResultFingerprintRef = useRef<string | null>(null);
   const isAdminPath = window.location.pathname.replace(/\/+$/, '') === '/admin';
 
   function goHome() {
     setAnswers([]);
     setCurrentIndex(0);
+    setSavedResult(null);
     setStep('intro');
   }
 
   function startQuiz() {
     setAnswers([]);
     setCurrentIndex(0);
+    setSavedResult(null);
     savedResultFingerprintRef.current = null;
     setStep('quiz');
   }
@@ -1384,6 +1439,7 @@ export default function App() {
         <Result
           answers={answers}
           savedResultFingerprintRef={savedResultFingerprintRef}
+          onSavedResult={setSavedResult}
           onRestart={startQuiz}
           onStudent={() => setStep('student')}
           onBooth={() => setStep('booth')}
@@ -1393,6 +1449,7 @@ export default function App() {
       {!isAdminPath && step === 'student' && (
         <StudentCardScreen
           answers={answers}
+          savedResult={savedResult}
           onResult={() => setStep('result')}
           onBooth={() => setStep('booth')}
           onHome={goHome}
